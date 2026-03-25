@@ -47,9 +47,7 @@ export function middleware(request) {
   }
 
   if (!isAuthorized(request)) {
-    const loginUrl = new URL(LOGIN_PATH, url);
-    loginUrl.searchParams.set('next', `${pathname}${search}`);
-    return Response.redirect(loginUrl, 302);
+    return new Response('Not found', { status: 404 });
   }
 
   return;

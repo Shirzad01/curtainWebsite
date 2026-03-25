@@ -1,0 +1,7 @@
+{
+  "name": "luxe-drapes",
+  "private": true,
+  "scripts": {
+    "start": "node scripts/start-all.js"
+  }
+}

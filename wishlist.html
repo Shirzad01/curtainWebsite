@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist | Luxe Drapes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="saved-pages.css">
+</head>
+
+<body data-saved-page="wishlist">
+    <header>
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-feather-pointed"></i>
+                Luxe <span>Drapes</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#products">Collections</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" onclick="console.log('[mobile-menu] inline click', window.location.pathname)">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="saved-page-shell">
+        <section class="saved-page-hero">
+            <span id="saved-kicker" class="saved-page-kicker">Saved List</span>
+            <h1 id="saved-title" class="saved-page-title">Wishlist</h1>
+            <p id="saved-desc" class="saved-page-desc">Everything you save from the collection lands here. Keep browsing, compare options, and move the ones you want into the cart when ready.</p>
+        </section>
+
+        <section class="saved-page-grid">
+            <div>
+                <div class="saved-page-toolbar">
+                    <div id="saved-count" class="saved-page-count">0 items</div>
+                    <a href="index.html#products" class="btn-secondary">Continue browsing</a>
+                </div>
+                <div id="saved-list" class="saved-list"></div>
+            </div>
+
+            <aside class="saved-summary">
+                <h2 id="saved-summary-title">Wishlist summary</h2>
+                <p id="saved-summary-text">Saved items stay here until you move them to the cart or remove them.</p>
+                <div class="saved-summary-row">
+                    <span>Items</span>
+                    <strong id="saved-summary-count">0 items</strong>
+                </div>
+                <div class="saved-summary-row">
+                    <span id="saved-summary-value-label">Saved value</span>
+                    <strong id="saved-summary-value" class="saved-summary-total">0 IRR</strong>
+                </div>
+                <div class="saved-summary-cta">
+                    <a id="saved-primary-cta" href="cart.html" class="btn-primary">View Cart</a>
+                    <a href="index.html#contact" class="btn-secondary">Contact design team</a>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-feather-pointed"></i>
+                    Luxe <span>Drapes</span>
+                </a>
+                <p>Premium custom curtains & drapery — crafted with passion and precision since 2010.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Quick Links</h3>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#products">Collections</a>
+                    <a href="wishlist.html">Wishlist</a>
+                    <a href="cart.html">Cart</a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Support</h3>
+                <div class="footer-links">
+                    <a href="index.html#contact">FAQ</a>
+                    <a href="index.html#contact">Shipping & Returns</a>
+                    <a href="index.html#contact">Privacy Policy</a>
+                    <a href="index.html#contact">Terms of Service</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
+                    <li><i class="fas fa-envelope"></i> hello@luxedrapes.ir</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Luxe Drapes — All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="catalog-data.js" defer></script>
+    <script src="saved-pages.js" defer></script>
+</body>
+
+</html>

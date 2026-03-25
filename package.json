@@ -5,6 +5,8 @@
     "nodemailer": "^6.9.15"
   },
   "scripts": {
+    "build": "npm --prefix admin/tailadmin-free-tailwind-dashboard-template-main install && npm --prefix admin/tailadmin-free-tailwind-dashboard-template-main run build",
+    "vercel-build": "npm run build",
     "start": "node scripts/start-all.js"
   }
 }

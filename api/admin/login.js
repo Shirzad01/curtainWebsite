@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
     res.setHeader('Set-Cookie', cookie);
     sendJson(res, 200, {
       ok: true,
-      redirectTo: '/admin/dashboard'
+      redirectTo: '/admin/panel/index.html'
     });
   } catch (error) {
     console.error('[admin/login] unexpected error:', error);

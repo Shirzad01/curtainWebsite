@@ -631,13 +631,17 @@
                 productsGrid.style.setProperty('display', 'grid', 'important');
                 productsGrid.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
                 productsGrid.style.setProperty('gap', '12px', 'important');
-                productsGrid.style.setProperty('width', '94%', 'important');
+                productsGrid.style.setProperty('width', '100%', 'important');
+                productsGrid.style.setProperty('padding-inline', '14px', 'important');
+                productsGrid.style.setProperty('box-sizing', 'border-box', 'important');
                 productsGrid.style.setProperty('align-items', 'start', 'important');
             } else {
                 productsGrid.style.removeProperty('display');
                 productsGrid.style.removeProperty('grid-template-columns');
                 productsGrid.style.removeProperty('gap');
                 productsGrid.style.removeProperty('width');
+                productsGrid.style.removeProperty('padding-inline');
+                productsGrid.style.removeProperty('box-sizing');
                 productsGrid.style.removeProperty('align-items');
             }
 

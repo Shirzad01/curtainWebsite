@@ -571,6 +571,7 @@
         let activeProductKey = '';
         let toastTimer = null;
         let activePanel = null;
+        const mobileProductQuery = window.matchMedia('(max-width: 768px)');
 
         const storage = {
             favorites: 'luxeFavorites',
@@ -617,6 +618,53 @@
                     const isAdded = cart.has(key);
                     cartBtn.classList.toggle('is-added', isAdded);
                     cartBtn.setAttribute('aria-label', isAdded ? 'Open cart' : 'Add to cart');
+                }
+            });
+        };
+
+        const applyMobileProductLayout = () => {
+            if (!productsGrid) return;
+            const isMobile = mobileProductQuery.matches;
+            const cards = Array.from(document.querySelectorAll('.products-grid .product-card'));
+
+            if (isMobile) {
+                productsGrid.style.setProperty('display', 'grid', 'important');
+                productsGrid.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
+                productsGrid.style.setProperty('gap', '12px', 'important');
+                productsGrid.style.setProperty('width', '94%', 'important');
+                productsGrid.style.setProperty('align-items', 'start', 'important');
+            } else {
+                productsGrid.style.removeProperty('display');
+                productsGrid.style.removeProperty('grid-template-columns');
+                productsGrid.style.removeProperty('gap');
+                productsGrid.style.removeProperty('width');
+                productsGrid.style.removeProperty('align-items');
+            }
+
+            cards.forEach((card) => {
+                if (card.classList.contains('explore-card')) {
+                    if (isMobile) {
+                        card.style.setProperty('grid-column', '1 / -1', 'important');
+                        card.style.setProperty('width', '100%', 'important');
+                        card.style.setProperty('max-width', '100%', 'important');
+                        card.style.setProperty('min-width', '0', 'important');
+                    } else {
+                        card.style.removeProperty('grid-column');
+                        card.style.removeProperty('width');
+                        card.style.removeProperty('max-width');
+                        card.style.removeProperty('min-width');
+                    }
+                    return;
+                }
+
+                if (isMobile) {
+                    card.style.setProperty('width', '100%', 'important');
+                    card.style.setProperty('min-width', '0', 'important');
+                    card.style.setProperty('max-width', 'none', 'important');
+                } else {
+                    card.style.removeProperty('width');
+                    card.style.removeProperty('min-width');
+                    card.style.removeProperty('max-width');
                 }
             });
         };
@@ -875,6 +923,7 @@
         mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) closeMobileMenu();
+            applyMobileProductLayout();
         });
 
         filterButtons.forEach((button) => {
@@ -1013,6 +1062,7 @@
         };
 
         bindProductButtons();
+        applyMobileProductLayout();
 
         modalClose.addEventListener('click', closeQuickView);
         quickViewBackdrop?.addEventListener('click', closeQuickView);

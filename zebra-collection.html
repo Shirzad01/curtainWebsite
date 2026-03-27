@@ -747,6 +747,39 @@
                     </div>
                 </div>`;
             }).join('');
+            applyMobileProductLayout();
+        };
+
+        const applyMobileProductLayout = () => {
+            if (!grid) return;
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+
+            if (isMobile) {
+                grid.style.setProperty('display', 'grid', 'important');
+                grid.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
+                grid.style.setProperty('gap', '10px', 'important');
+                grid.style.setProperty('width', '94%', 'important');
+                grid.style.setProperty('align-items', 'start', 'important');
+            } else {
+                grid.style.removeProperty('display');
+                grid.style.removeProperty('grid-template-columns');
+                grid.style.removeProperty('gap');
+                grid.style.removeProperty('width');
+                grid.style.removeProperty('align-items');
+            }
+
+            cards.forEach((card) => {
+                if (isMobile) {
+                    card.style.setProperty('width', '100%', 'important');
+                    card.style.setProperty('min-width', '0', 'important');
+                    card.style.setProperty('max-width', 'none', 'important');
+                } else {
+                    card.style.removeProperty('width');
+                    card.style.removeProperty('min-width');
+                    card.style.removeProperty('max-width');
+                }
+            });
         };
 
         const loadCollections = async () => {
@@ -846,6 +879,7 @@
         });
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) closeMobileMenu();
+            applyMobileProductLayout();
         });
 
         init();

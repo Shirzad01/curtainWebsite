@@ -560,6 +560,8 @@ body::after {
 
         body.modal-open {
             overflow: hidden;
+            perspective: none !important;
+            transform-style: flat !important;
         }
 
         .quick-view-modal {
@@ -567,14 +569,14 @@ body::after {
             inset: 0;
             z-index: 9999;
             display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
+            place-items: center;
+            padding: 24px;
             background: rgba(10, 10, 10, 0.6);
+            isolation: isolate;
         }
 
         .quick-view-modal.is-open {
-            display: flex;
+            display: grid;
         }
 
         .quick-view-content {
@@ -582,30 +584,28 @@ body::after {
             background: #fff;
             border-radius: 24px;
             padding: 28px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
+            position: relative;
+            transform: none !important;
+            z-index: 2;
             max-height: calc(100vh - 48px);
             overflow: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            box-sizing: border-box;
         }
 
         .quick-view-backdrop {
             position: absolute;
             inset: 0;
+            z-index: 1;
             pointer-events: none;
         }
 
         @media (max-width: 768px) {
             .quick-view-modal {
-                padding: 0;
+                padding: 16px;
             }
 
             .quick-view-content {
-                top: 50%;
-                transform: translate(-50%, -50%);
                 width: calc(100vw - 32px);
                 max-height: calc(100vh - 32px);
             }

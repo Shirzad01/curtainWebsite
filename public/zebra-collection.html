@@ -1,0 +1,889 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zebra Blinds Collection | Luxe Drapes</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=20260328">
+    <style>
+        :root {
+            --collection-bg: #f4f2ee;
+            --collection-surface: #fffcf8;
+            --collection-dark: #1d1c1a;
+            --collection-muted: #6a665f;
+            --collection-accent: #b88a44;
+            --collection-accent-soft: #e7d8bf;
+            --collection-border: rgba(45, 39, 28, 0.12);
+            --collection-shadow: 0 20px 45px rgba(27, 22, 14, 0.14);
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--collection-dark);
+            background:
+                radial-gradient(circle at 8% 12%, rgba(203, 165, 96, 0.12), transparent 34%),
+                radial-gradient(circle at 85% 28%, rgba(66, 90, 86, 0.14), transparent 30%),
+                var(--collection-bg);
+        }
+
+        .collection-hero {
+            position: relative;
+            margin: 28px 3.5% 0;
+            padding: 170px 8% 90px;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            min-height: 72vh;
+            border-radius: 34px;
+            isolation: isolate;
+            box-shadow: var(--collection-shadow);
+        }
+
+        .video-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+
+        .video-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, rgba(20, 20, 20, 0.72), rgba(20, 20, 20, 0.32));
+            z-index: 1;
+        }
+
+        .video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.06);
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 42px 28px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: linear-gradient(120deg, rgba(18, 18, 18, 0.54), rgba(18, 18, 18, 0.26));
+            backdrop-filter: blur(10px);
+            animation: revealHero 1s ease;
+        }
+
+        .hero-overlay h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5.6vw, 4.7rem);
+            margin-bottom: 16px;
+            letter-spacing: 0.4px;
+            line-height: 1.08;
+        }
+
+        .hero-overlay p {
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            opacity: 0.96;
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(6px);
+        }
+
+        .products {
+            padding-bottom: 80px;
+        }
+
+        .sort-filter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 8% 22px;
+            flex-wrap: wrap;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.8s ease forwards 0.35s;
+        }
+
+        .section-kicker {
+            font-size: 0.84rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--collection-muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+            margin: 0;
+            color: var(--collection-dark);
+        }
+
+        .sort-select {
+            padding: 13px 42px 13px 16px;
+            border: 1px solid var(--collection-border);
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: var(--collection-surface);
+            color: var(--collection-dark);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23b88a44' d='M6 8.5L1 3.5h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 24px rgba(25, 20, 10, 0.06);
+        }
+
+        .sort-select:hover,
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--collection-accent);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 34px rgba(30, 26, 16, 0.12);
+        }
+
+        .products-grid {
+            width: min(1260px, 92%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 22px;
+        }
+
+        .product-card {
+            background: var(--collection-surface);
+            border-radius: 22px;
+            border: 1px solid var(--collection-border);
+            overflow: hidden;
+            transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+            opacity: 1;
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(31, 27, 18, 0.07);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(184, 138, 68, 0.35);
+            box-shadow: 0 24px 40px rgba(30, 25, 15, 0.16);
+        }
+
+        .product-image {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #fff;
+            background: rgba(29, 27, 23, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            z-index: 3;
+        }
+
+        .product-actions {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .product-action {
+            border: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.94);
+            color: #3b352d;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(15, 13, 9, 0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        @media (hover: none) {
+            .product-actions {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+        }
+
+        .product-info {
+            padding: 20px 18px 18px;
+        }
+
+        .product-category {
+            color: #8f7d5f;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .product-name {
+            margin: 10px 0 9px;
+            font-size: 1.14rem;
+            line-height: 1.35;
+        }
+
+        .product-info p {
+            margin: 0 0 16px;
+            color: var(--collection-muted);
+            line-height: 1.7;
+            font-size: 0.94rem;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(45, 39, 28, 0.1);
+        }
+
+        .price {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #28231b;
+        }
+
+        .price small {
+            font-weight: 600;
+            color: #706655;
+            margin-left: 3px;
+            font-size: 0.73em;
+        }
+
+        .product-rating {
+            color: #d8a44a;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            inset: 0;
+            background-color: rgba(10, 10, 10, 0.6);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 24px;
+            border-radius: 20px;
+            max-width: 950px;
+            width: min(950px, 100%);
+            position: relative;
+            box-shadow: 0 24px 48px rgba(17, 15, 10, 0.22);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+            font-size: 34px;
+            line-height: 1;
+            cursor: pointer;
+            color: #8e8578;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: #222;
+        }
+
+        .modal-body {
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .modal-body img {
+            width: 52%;
+            border-radius: 14px;
+            object-fit: cover;
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .modal-info h2 {
+            font-family: 'Playfair Display', serif;
+            margin: 8px 0 0;
+        }
+
+        .modal-info p {
+            color: var(--collection-muted);
+            line-height: 1.75;
+            margin: 0;
+        }
+
+        #modal-price {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #251f17;
+        }
+
+        #modal-rating {
+            color: #d8a44a;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(130deg, #ba8c46, #9f7537);
+            color: white;
+            box-shadow: 0 12px 24px rgba(159, 117, 55, 0.32);
+        }
+
+        .btn-secondary {
+            background: #f3ede2;
+            color: #3a3228;
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes revealHero {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 980px) {
+            .collection-hero {
+                margin: 18px 2.4% 0;
+                border-radius: 24px;
+                padding: 145px 7% 72px;
+            }
+
+            .modal-body {
+                flex-direction: column;
+            }
+
+            .modal-body img {
+                width: 100%;
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sort-filter {
+                margin: 28px 4.5% 16px;
+                align-items: flex-start;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+
+            .products-grid {
+                width: 94%;
+                display: flex !important;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .products-grid > .product-card {
+                flex: 0 0 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+                min-width: 0;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+            .hero-stats {
+                gap: 10px;
+            }
+
+            .hero-stat {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                width: 96%;
+                display: flex !important;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .products-grid > .product-card {
+                flex: 0 0 calc(50% - 5px);
+                max-width: calc(50% - 5px);
+            }
+
+            .product-image {
+                height: 150px;
+            }
+
+            .product-info {
+                padding: 14px 12px 16px;
+            }
+
+            .product-name {
+                font-size: 0.95rem;
+            }
+
+            .product-info p {
+                font-size: 0.78rem;
+                line-height: 1.45;
+            }
+
+            .price {
+                font-size: 0.95rem;
+            }
+
+            .product-action {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-feather-pointed"></i>
+                Luxe <span>Drapes</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#products">Collections</a></li>
+                <li><a href="index.html#categories">Categories</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+
+            <button class="header-btn" type="button">Free Consultation</button>
+            <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <section class="collection-hero">
+        <div class="video-bg">
+            <video autoplay muted loop playsinline>
+                <source src="https://www.pexels.com/download/video/34580816/" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="hero-overlay">
+            <h1>Zebra Blinds Collection</h1>
+            <p>Discover our exclusive range of dual-layer zebra shades. Perfect light control, modern design, natural
+                tones crafted for your home in 2026 trends.</p>
+            <div class="hero-stats">
+                <span class="hero-stat">Dual Layer Fabric</span>
+                <span class="hero-stat">Custom Width & Height</span>
+                <span class="hero-stat">2026 Interior Palette</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" style="padding-top: 0;">
+        <div class="sort-filter">
+            <div>
+                <p class="section-kicker">Premium Selection</p>
+                <h2 class="section-title">Find Your Perfect Zebra Shade</h2>
+            </div>
+            <div class="products-filter">
+                <select class="sort-select" id="sort-select">
+                    <option value="newest">Newest First</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="products-grid"></div>
+    </section>
+
+    <div id="quick-view-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <img id="modal-image" src="" alt="Product">
+                <div class="modal-info">
+                    <h2 id="modal-name"></h2>
+                    <p id="modal-desc"></p>
+                    <span id="modal-price"></span>
+                    <div id="modal-rating"></div>
+                    <button class="btn-primary">Add to Cart</button>
+                    <button class="btn-secondary">Contact for Custom</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-feather-pointed"></i>
+                    Luxe <span>Drapes</span>
+                </a>
+                <p>Premium custom curtains & drapery - crafted with passion and precision since 2010.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Quick Links</h3>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#products">Collections</a>
+                    <a href="index.html#categories">Categories</a>
+                    <a href="index.html#about">About Us</a>
+                    <a href="#">Blog</a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Support</h3>
+                <div class="footer-links">
+                    <a href="#">FAQ</a>
+                    <a href="#">Shipping & Returns</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
+                    <li><i class="fas fa-envelope"></i> hello@luxedrapes.ir</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Luxe Drapes - All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+        <script>
+        const API_BASE = (() => {
+            const { protocol, hostname, port, origin } = window.location;
+            if (protocol === 'file:') {
+                return 'http://localhost:3001/api/collections';
+            }
+            if (hostname === 'localhost' && port && port !== '3001') {
+                return 'http://localhost:3001/api/collections';
+            }
+            return `${origin}/api/collections`;
+        })();
+        const sortSelect = document.getElementById('sort-select');
+        const grid = document.querySelector('.products-grid');
+        const modal = document.getElementById('quick-view-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const header = document.querySelector('header');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
+
+        const formatPrice = (value) => Number(value || 0).toLocaleString('en-US');
+        const truncate = (text, max = 90) => {
+            const value = String(text || '');
+            return value.length > max ? `${value.slice(0, max).trim()}...` : value;
+        };
+
+        const formatDateKey = (value) => {
+            if (!value) return '';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return '';
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${date.getFullYear()}-${month}`;
+        };
+
+        const renderStars = (rating) => {
+            const value = Math.max(0, Math.min(5, Number(rating) || 0));
+            const stars = [];
+            for (let i = 1; i <= 5; i += 1) {
+                if (value >= i) {
+                    stars.push('<i class="fas fa-star"></i>');
+                } else if (value >= i - 0.5) {
+                    stars.push('<i class="fas fa-star-half-alt"></i>');
+                } else {
+                    stars.push('<i class="fa-regular fa-star"></i>');
+                }
+            }
+            return stars.join('');
+        };
+
+        const renderCards = (items) => {
+            const visible = items.filter((item) => item.status !== 'Hidden');
+            grid.innerHTML = visible.map((item) => {
+                const dateKey = formatDateKey(item.updatedAt);
+                return `
+                <div class="product-card" data-category="${item.tags}" data-price="${item.price}" data-date="${dateKey}" data-popular="${item.popular}" data-rating="${item.rating || ''}">
+                    <div class="product-image">
+                        ${item.badge ? `<span class=\"product-badge\">${item.badge}</span>` : ''}
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        <div class="product-actions">
+                            <button class="product-action" aria-label="Favorite"><i class="fas fa-heart"></i></button>
+                            <button class="product-action" aria-label="Add to cart"><i class="fas fa-shopping-cart"></i></button>
+                            <button class="product-action quick-view-btn" aria-label="Quick view"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${item.label}</span>
+                        <h3 class="product-name">${item.name}</h3>
+                        <p>${truncate(item.description)}</p>
+                        <div class="product-price">
+                            <span class="price">${formatPrice(item.price)} <small>IRR</small></span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+            applyMobileProductLayout();
+        };
+
+        const applyMobileProductLayout = () => {
+            if (!grid) return;
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+
+            if (isMobile) {
+                grid.style.setProperty('display', 'grid', 'important');
+                grid.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
+                grid.style.setProperty('gap', '10px', 'important');
+                grid.style.setProperty('width', '94%', 'important');
+                grid.style.setProperty('align-items', 'start', 'important');
+            } else {
+                grid.style.removeProperty('display');
+                grid.style.removeProperty('grid-template-columns');
+                grid.style.removeProperty('gap');
+                grid.style.removeProperty('width');
+                grid.style.removeProperty('align-items');
+            }
+
+            cards.forEach((card) => {
+                if (isMobile) {
+                    card.style.setProperty('width', '100%', 'important');
+                    card.style.setProperty('min-width', '0', 'important');
+                    card.style.setProperty('max-width', 'none', 'important');
+                } else {
+                    card.style.removeProperty('width');
+                    card.style.removeProperty('min-width');
+                    card.style.removeProperty('max-width');
+                }
+            });
+        };
+
+        const loadCollections = async () => {
+            const res = await fetch(API_BASE);
+            if (!res.ok) throw new Error('Failed to load collections');
+            return res.json();
+        };
+
+        let allItems = [];
+
+        const closeMobileMenu = () => {
+            if (!header || !mobileMenuBtn) return;
+            header.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuBtn.setAttribute('aria-label', 'Open menu');
+            if (mobileMenuIcon) {
+                mobileMenuIcon.className = 'fas fa-bars';
+            }
+        };
+
+        const toggleMobileMenu = () => {
+            if (!header || !mobileMenuBtn) return;
+            const isOpen = header.classList.toggle('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+            mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+            if (mobileMenuIcon) {
+                mobileMenuIcon.className = isOpen ? 'fas fa-xmark' : 'fas fa-bars';
+            }
+        };
+
+        const sortAndRender = (value) => {
+            const items = [...allItems];
+            if (value === 'newest') {
+                items.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            } else if (value === 'popular') {
+                items.sort((a, b) => (b.popular || 0) - (a.popular || 0));
+            } else if (value === 'price-low') {
+                items.sort((a, b) => (a.price || 0) - (b.price || 0));
+            } else if (value === 'price-high') {
+                items.sort((a, b) => (b.price || 0) - (a.price || 0));
+            }
+            renderCards(items);
+        };
+
+        const init = async () => {
+            try {
+                allItems = await loadCollections();
+                renderCards(allItems);
+            } catch (error) {
+                grid.innerHTML = '<div style="padding: 24px;">Database is not reachable. Start the server first.</div>';
+            }
+        };
+
+        sortSelect.addEventListener('change', () => {
+            sortAndRender(sortSelect.value);
+        });
+
+        grid.addEventListener('click', (event) => {
+            const btn = event.target.closest('.quick-view-btn');
+            if (!btn) return;
+            const card = btn.closest('.product-card');
+            document.getElementById('modal-image').src = card.querySelector('img').src;
+            document.getElementById('modal-name').textContent = card.querySelector('h3').textContent;
+            document.getElementById('modal-desc').textContent = card.querySelector('p').textContent;
+            document.getElementById('modal-price').innerHTML = card.querySelector('.price').innerHTML;
+            const modalRating = document.getElementById('modal-rating');
+            const ratingValue = card.dataset.rating;
+            if (ratingValue) {
+                modalRating.innerHTML = renderStars(ratingValue);
+                modalRating.style.display = 'block';
+            } else {
+                modalRating.innerHTML = '';
+                modalRating.style.display = 'none';
+            }
+            modal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+        document.querySelectorAll('.nav-links a').forEach((link) => {
+            link.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) closeMobileMenu();
+            applyMobileProductLayout();
+        });
+
+        init();
+    </script>
+</body>
+
+</html>

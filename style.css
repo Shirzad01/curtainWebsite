@@ -613,6 +613,13 @@ body::after {
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
 
+        @media (max-width: 768px) {
+            .quick-view-modal {
+                align-items: flex-start;
+                padding: 56px 16px 24px;
+            }
+        }
+
         .saved-panel {
             position: fixed;
             inset: 0;

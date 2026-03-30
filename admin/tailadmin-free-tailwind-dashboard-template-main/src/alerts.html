@@ -286,12 +286,15 @@
         renderMessages(messages);
       };
 
-      const updateMessage = async (id, status) => {
+      const updateMessage = async (id, status, messageData = null) => {
         const response = await fetch(`${API_BASE}/contact-messages/${id}`, {
           method: 'PUT',
           cache: 'no-store',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status })
+          body: JSON.stringify({
+            status,
+            messageData
+          })
         });
 
         if (!response.ok) {
@@ -374,9 +377,9 @@
             return;
           }
           if (action === 'progress') {
-            await updateMessage(id, 'In Progress');
+            await updateMessage(id, 'In Progress', message);
           } else if (action === 'resolve') {
-            await updateMessage(id, 'Resolved');
+            await updateMessage(id, 'Resolved', message);
           } else if (action === 'delete') {
             await deleteMessage(id);
           }

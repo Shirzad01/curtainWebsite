@@ -34,23 +34,39 @@ module.exports = async (req, res) => {
     if (!requireAdminAuth(req, res)) return;
     const payload = await readJson(req);
     const existing = getMessages().find((item) => item.id === id);
-    if (!existing) {
+    const messageData = payload.messageData && typeof payload.messageData === 'object' ? payload.messageData : null;
+
+    if (!existing && !messageData) {
       sendJson(res, 404, { error: 'Message not found' });
       return;
     }
 
     const row = {
       id,
-      name: payload.name !== undefined ? String(payload.name).trim() : existing.name,
-      phone: payload.phone !== undefined ? String(payload.phone).trim() : existing.phone,
-      email: payload.email !== undefined ? String(payload.email).trim() : existing.email,
-      roomType: payload.roomType !== undefined ? String(payload.roomType).trim() : existing.roomType,
-      message: payload.message !== undefined ? String(payload.message).trim() : existing.message,
-      status: payload.status !== undefined ? String(payload.status).trim() : existing.status,
-      source: payload.source !== undefined ? String(payload.source).trim() : existing.source,
-      replyMessage: existing.replyMessage || '',
-      repliedAt: existing.repliedAt || '',
-      createdAt: existing.createdAt,
+      name: payload.name !== undefined
+        ? String(payload.name).trim()
+        : existing?.name || String(messageData?.name || '').trim(),
+      phone: payload.phone !== undefined
+        ? String(payload.phone).trim()
+        : existing?.phone || String(messageData?.phone || '').trim(),
+      email: payload.email !== undefined
+        ? String(payload.email).trim()
+        : existing?.email || String(messageData?.email || messageData?.phone || '').trim(),
+      roomType: payload.roomType !== undefined
+        ? String(payload.roomType).trim()
+        : existing?.roomType || String(messageData?.roomType || messageData?.room_type || '').trim(),
+      message: payload.message !== undefined
+        ? String(payload.message).trim()
+        : existing?.message || String(messageData?.message || '').trim(),
+      status: payload.status !== undefined
+        ? String(payload.status).trim()
+        : existing?.status || 'New',
+      source: payload.source !== undefined
+        ? String(payload.source).trim()
+        : existing?.source || String(messageData?.source || 'admin-panel').trim(),
+      replyMessage: existing?.replyMessage || '',
+      repliedAt: existing?.repliedAt || '',
+      createdAt: existing?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 

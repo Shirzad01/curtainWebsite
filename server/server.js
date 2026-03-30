@@ -392,21 +392,22 @@ app.put('/api/contact-messages/:id', (req, res) => {
   const payload = req.body || {};
   const id = req.params.id;
   const existing = db.prepare('SELECT * FROM contact_messages WHERE id = ?').get(id);
+  const messageData = payload.messageData && typeof payload.messageData === 'object' ? payload.messageData : null;
 
-  if (!existing) {
+  if (!existing && !messageData) {
     return res.status(404).json({ error: 'Message not found' });
   }
 
   const row = {
     id,
-    name: payload.name !== undefined ? String(payload.name).trim() : existing.name,
-    phone: payload.phone !== undefined ? String(payload.phone).trim() : existing.phone,
-    email: payload.email !== undefined ? String(payload.email).trim() : (existing.email || existing.phone),
-    room_type: payload.roomType !== undefined ? String(payload.roomType).trim() : existing.room_type,
-    message: payload.message !== undefined ? String(payload.message).trim() : existing.message,
-    status: payload.status || existing.status,
-    source: payload.source || existing.source,
-    created_at: existing.created_at,
+    name: payload.name !== undefined ? String(payload.name).trim() : (existing?.name || String(messageData?.name || '').trim()),
+    phone: payload.phone !== undefined ? String(payload.phone).trim() : (existing?.phone || String(messageData?.phone || '').trim()),
+    email: payload.email !== undefined ? String(payload.email).trim() : (existing?.email || existing?.phone || String(messageData?.email || messageData?.phone || '').trim()),
+    room_type: payload.roomType !== undefined ? String(payload.roomType).trim() : (existing?.room_type || String(messageData?.roomType || messageData?.room_type || '').trim()),
+    message: payload.message !== undefined ? String(payload.message).trim() : (existing?.message || String(messageData?.message || '').trim()),
+    status: payload.status || existing?.status || 'New',
+    source: payload.source || existing?.source || String(messageData?.source || 'admin-panel').trim(),
+    created_at: existing?.created_at || new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
 

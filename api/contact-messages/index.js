@@ -60,10 +60,11 @@ module.exports = async (req, res) => {
 
     upsertMessage(row);
 
-    const mailWarning = getMailConfigError();
+    const shouldNotifyAdmin = source !== 'checkout';
+    const mailWarning = shouldNotifyAdmin ? getMailConfigError() : '';
     let emailDelivered = false;
 
-    if (!mailWarning) {
+    if (shouldNotifyAdmin && !mailWarning) {
       try {
         const adminRecipient = process.env.SMTP_USER || process.env.MAIL_FROM;
         if (adminRecipient) {

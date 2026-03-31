@@ -82,7 +82,7 @@
         overflow: hidden;
       }
     </style>
-  <link rel="icon" href="favicon.ico"><link href="style.css?v=1774909493170" rel="stylesheet"></head>
+  <link rel="icon" href="favicon.ico"><link href="style.css?v=1774991201153" rel="stylesheet"></head>
   <body
     x-data="{ page: 'contact', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
     x-init="
@@ -1426,12 +1426,15 @@
         renderMessages(messages);
       };
 
-      const updateMessage = async (id, status) => {
+      const updateMessage = async (id, status, messageData = null) => {
         const response = await fetch(`${API_BASE}/contact-messages/${id}`, {
           method: 'PUT',
           cache: 'no-store',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status })
+          body: JSON.stringify({
+            status,
+            messageData
+          })
         });
 
         if (!response.ok) {
@@ -1504,9 +1507,9 @@
             return;
           }
           if (action === 'progress') {
-            await updateMessage(id, 'In Progress');
+            await updateMessage(id, 'In Progress', message);
           } else if (action === 'resolve') {
-            await updateMessage(id, 'Resolved');
+            await updateMessage(id, 'Resolved', message);
           } else if (action === 'delete') {
             await deleteMessage(id);
           }
@@ -1558,5 +1561,5 @@
         listEl.innerHTML = '<p class="text-sm text-red-600">Database is not reachable. Start the server first.</p>';
       });
     </script>
-  <script defer src="bundle.js?v=1774909493170"></script></body>
+  <script defer src="bundle.js?v=1774991201153"></script></body>
 </html>

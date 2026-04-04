@@ -82,7 +82,7 @@
         overflow: hidden;
       }
     </style>
-  <link rel="icon" href="favicon.ico"><link href="style.css?v=1775340315081" rel="stylesheet"></head>
+  <link rel="icon" href="favicon.ico"><link href="style.css?v=1775341815735" rel="stylesheet"></head>
   <body
     x-data="{ page: 'contact', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
     x-init="
@@ -253,6 +253,37 @@
                 :class="sidebarToggle ? 'lg:hidden' : ''"
               >
                 Contact Messages
+              </span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="orders.html"
+              class="menu-item group"
+              :class="page === 'orders' ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="page === 'orders' ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8 4.75C6.48122 4.75 5.25 5.98122 5.25 7.5V8.25H18.75V7.5C18.75 5.98122 17.5188 4.75 16 4.75H8ZM20.25 9.75H3.75V16.5C3.75 18.0188 4.98122 19.25 6.5 19.25H17.5C19.0188 19.25 20.25 18.0188 20.25 16.5V9.75ZM8 3.25C5.65279 3.25 3.75 5.15279 3.75 7.5V16.5C3.75 18.8472 5.65279 20.75 8 20.75H16C18.3472 20.75 20.25 18.8472 20.25 16.5V7.5C20.25 5.15279 18.3472 3.25 16 3.25H8ZM7.25 13C7.25 12.5858 7.58579 12.25 8 12.25H11C11.4142 12.25 11.75 12.5858 11.75 13C11.75 13.4142 11.4142 13.75 11 13.75H8C7.58579 13.75 7.25 13.4142 7.25 13ZM13.25 13C13.25 12.5858 13.5858 12.25 14 12.25H16C16.4142 12.25 16.75 12.5858 16.75 13C16.75 13.4142 16.4142 13.75 16 13.75H14C13.5858 13.75 13.25 13.4142 13.25 13Z"
+                  fill=""
+                />
+              </svg>
+
+              <span
+                class="menu-item-text"
+                :class="sidebarToggle ? 'lg:hidden' : ''"
+              >
+                Orders
               </span>
             </a>
           </li>
@@ -1418,5 +1449,5 @@
         listEl.innerHTML = '<p class="text-sm text-red-600">Database is not reachable. Start the server first.</p>';
       });
     </script>
-  <script defer src="bundle.js?v=1775340315081"></script></body>
+  <script defer src="bundle.js?v=1775341815735"></script></body>
 </html>

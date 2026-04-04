@@ -70,7 +70,8 @@ const DEFAULT_COLLECTIONS = [
 
 const DEFAULT_STATE = {
   collections: DEFAULT_COLLECTIONS,
-  contactMessages: []
+  contactMessages: [],
+  orders: []
 };
 
 let memoryState = null;
@@ -121,6 +122,34 @@ const mapMessageRow = (row) => ({
   updatedAt: row.updated_at || row.updatedAt || ''
 });
 
+const mapOrderRow = (row) => ({
+  id: row.id,
+  customerName: row.customer_name || row.customerName || '',
+  email: row.email || '',
+  phone: row.phone || '',
+  paymentMethod: row.payment_method || row.paymentMethod || '',
+  shippingAddress: row.shipping_address || row.shippingAddress || '',
+  city: row.city || '',
+  notes: row.notes || '',
+  status: row.status || 'Pending',
+  currency: row.currency || 'USD',
+  subtotal: Number(row.subtotal) || 0,
+  shippingFee: Number(row.shipping_fee || row.shippingFee) || 0,
+  total: Number(row.total) || 0,
+  items: (() => {
+    const raw = row.items_json || row.itemsJson || row.items;
+    if (Array.isArray(raw)) return raw;
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  })(),
+  createdAt: row.created_at || row.createdAt || '',
+  updatedAt: row.updated_at || row.updatedAt || ''
+});
+
 const ensureRemoteDatabase = async () => {
   const sql = getSqlClient();
   if (!sql) return false;
@@ -162,6 +191,27 @@ const ensureRemoteDatabase = async () => {
       )
     `;
 
+    await sql`
+      CREATE TABLE IF NOT EXISTS orders (
+        id TEXT PRIMARY KEY,
+        customer_name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        payment_method TEXT NOT NULL,
+        shipping_address TEXT NOT NULL,
+        city TEXT NOT NULL,
+        notes TEXT NOT NULL DEFAULT '',
+        status TEXT NOT NULL,
+        currency TEXT NOT NULL DEFAULT 'USD',
+        subtotal INTEGER NOT NULL DEFAULT 0,
+        shipping_fee INTEGER NOT NULL DEFAULT 0,
+        total INTEGER NOT NULL DEFAULT 0,
+        items_json TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    `;
+
     const collectionCount = await sql`SELECT COUNT(*)::int AS count FROM collections`;
     if (Number(collectionCount?.[0]?.count || 0) === 0) {
       for (const row of DEFAULT_COLLECTIONS) {
@@ -193,7 +243,8 @@ const ensureRemoteDatabase = async () => {
 
 const normalizeState = (state) => ({
   collections: Array.isArray(state?.collections) ? state.collections : clone(DEFAULT_COLLECTIONS),
-  contactMessages: Array.isArray(state?.contactMessages) ? state.contactMessages : []
+  contactMessages: Array.isArray(state?.contactMessages) ? state.contactMessages : [],
+  orders: Array.isArray(state?.orders) ? state.orders : []
 });
 
 const loadState = () => {
@@ -446,6 +497,130 @@ const deleteMessage = async (id) => {
   await sql`DELETE FROM contact_messages WHERE id = ${id}`;
 };
 
+const getOrders = async () => {
+  if (!hasRemoteDatabase()) {
+    return clone(loadState().orders).sort((a, b) => {
+      const left = new Date(b.createdAt || 0).getTime();
+      const right = new Date(a.createdAt || 0).getTime();
+      return left - right;
+    });
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  const rows = await sql`
+    SELECT id, customer_name, email, phone, payment_method, shipping_address, city, notes, status, currency, subtotal, shipping_fee, total, items_json, created_at, updated_at
+    FROM orders
+    ORDER BY created_at DESC
+  `;
+  return rows.map(mapOrderRow);
+};
+
+const setOrders = async (orders) => {
+  if (!hasRemoteDatabase()) {
+    const state = loadState();
+    state.orders = clone(orders);
+    saveState(state);
+    return getOrders();
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`DELETE FROM orders`;
+  for (const row of orders) {
+    await sql`
+      INSERT INTO orders (
+        id, customer_name, email, phone, payment_method, shipping_address, city, notes, status, currency, subtotal, shipping_fee, total, items_json, created_at, updated_at
+      ) VALUES (
+        ${row.id},
+        ${row.customerName},
+        ${row.email},
+        ${row.phone},
+        ${row.paymentMethod},
+        ${row.shippingAddress},
+        ${row.city},
+        ${row.notes || ''},
+        ${row.status || 'Pending'},
+        ${row.currency || 'USD'},
+        ${Number(row.subtotal) || 0},
+        ${Number(row.shippingFee) || 0},
+        ${Number(row.total) || 0},
+        ${JSON.stringify(Array.isArray(row.items) ? row.items : [])},
+        ${row.createdAt || new Date().toISOString()},
+        ${row.updatedAt || new Date().toISOString()}
+      )
+    `;
+  }
+  return getOrders();
+};
+
+const upsertOrder = async (row) => {
+  if (!hasRemoteDatabase()) {
+    const orders = loadState().orders.slice();
+    const index = orders.findIndex((item) => item.id === row.id);
+    if (index >= 0) {
+      orders[index] = row;
+    } else {
+      orders.unshift(row);
+    }
+    return setOrders(orders);
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`
+    INSERT INTO orders (
+      id, customer_name, email, phone, payment_method, shipping_address, city, notes, status, currency, subtotal, shipping_fee, total, items_json, created_at, updated_at
+    ) VALUES (
+      ${row.id},
+      ${row.customerName},
+      ${row.email},
+      ${row.phone},
+      ${row.paymentMethod},
+      ${row.shippingAddress},
+      ${row.city},
+      ${row.notes || ''},
+      ${row.status || 'Pending'},
+      ${row.currency || 'USD'},
+      ${Number(row.subtotal) || 0},
+      ${Number(row.shippingFee) || 0},
+      ${Number(row.total) || 0},
+      ${JSON.stringify(Array.isArray(row.items) ? row.items : [])},
+      ${row.createdAt || new Date().toISOString()},
+      ${row.updatedAt || new Date().toISOString()}
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      customer_name = EXCLUDED.customer_name,
+      email = EXCLUDED.email,
+      phone = EXCLUDED.phone,
+      payment_method = EXCLUDED.payment_method,
+      shipping_address = EXCLUDED.shipping_address,
+      city = EXCLUDED.city,
+      notes = EXCLUDED.notes,
+      status = EXCLUDED.status,
+      currency = EXCLUDED.currency,
+      subtotal = EXCLUDED.subtotal,
+      shipping_fee = EXCLUDED.shipping_fee,
+      total = EXCLUDED.total,
+      items_json = EXCLUDED.items_json,
+      created_at = COALESCE(orders.created_at, EXCLUDED.created_at),
+      updated_at = EXCLUDED.updated_at
+  `;
+  return row;
+};
+
+const deleteOrder = async (id) => {
+  if (!hasRemoteDatabase()) {
+    const orders = loadState().orders.filter((item) => item.id !== id);
+    setOrders(orders);
+    return;
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`DELETE FROM orders WHERE id = ${id}`;
+};
+
 const readJson = async (req) => new Promise((resolve, reject) => {
   let raw = '';
   req.on('data', (chunk) => {
@@ -508,9 +683,11 @@ module.exports = {
   clone,
   deleteCollection,
   deleteMessage,
+  deleteOrder,
   escapeHtml,
   getCollections,
   getMessages,
+  getOrders,
   handleOptions,
   loadState,
   readJson,
@@ -519,6 +696,8 @@ module.exports = {
   sendJson,
   setCollections,
   setMessages,
+  setOrders,
   upsertCollection,
-  upsertMessage
+  upsertMessage,
+  upsertOrder
 };

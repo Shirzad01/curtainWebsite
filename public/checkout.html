@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775340315081">
-    <link rel="stylesheet" href="saved-pages.css?v=1775340315081">
+    <link rel="stylesheet" href="style.css?v=1775341815735">
+    <link rel="stylesheet" href="saved-pages.css?v=1775341815735">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -378,19 +378,19 @@
     <main class="checkout-shell">
         <section class="checkout-hero">
             <span class="checkout-kicker">Secure Checkout</span>
-            <h1 class="checkout-title">Review your cart and send a tailored quote request.</h1>
-            <p class="checkout-desc">Use this page to confirm the items you chose, add room and measurement details, and send everything to the design team in one clean step.</p>
+            <h1 class="checkout-title">Review your cart and place your order.</h1>
+            <p class="checkout-desc">Confirm the items you selected, add delivery details, choose a payment method, and turn your cart into a real order.</p>
             <div class="checkout-steps">
                 <span class="checkout-step">1. Review items</span>
-                <span class="checkout-step is-active">2. Add project details</span>
-                <span class="checkout-step">3. Send request</span>
+                <span class="checkout-step is-active">2. Delivery & payment</span>
+                <span class="checkout-step">3. Place order</span>
             </div>
         </section>
 
         <section class="checkout-grid">
             <section class="checkout-card checkout-form-card">
-                <h2 class="checkout-section-title">Project details</h2>
-                <p class="checkout-section-copy">Fill in the information below. We use this to prepare the first quote and reply directly to your Gmail inbox.</p>
+                <h2 class="checkout-section-title">Customer details</h2>
+                <p class="checkout-section-copy">Fill in the information below so we can prepare, confirm, and deliver your order properly.</p>
 
                 <form id="checkout-form" class="checkout-form" novalidate>
                     <div class="checkout-grid-fields">
@@ -400,62 +400,56 @@
                         </label>
 
                         <label class="checkout-field">
-                            <span>Gmail address</span>
-                            <input id="checkout-email" name="email" type="email" autocomplete="email" placeholder="yourname@gmail.com" required>
+                            <span>Email address</span>
+                            <input id="checkout-email" name="email" type="email" autocomplete="email" placeholder="yourname@example.com" required>
                         </label>
 
                         <label class="checkout-field">
-                            <span>Room type</span>
-                            <select id="checkout-room" name="roomType" required>
-                                <option value="">Choose a room</option>
-                                <option>Living room</option>
-                                <option>Bedroom</option>
-                                <option>Dining room</option>
-                                <option>Office</option>
-                                <option>Kitchen</option>
-                            </select>
-                        </label>
-
-                        <label class="checkout-field">
-                            <span>Phone or WhatsApp</span>
-                            <input id="checkout-phone" name="phone" type="tel" autocomplete="tel" placeholder="+93 700 000 000">
+                            <span>Phone / WhatsApp</span>
+                            <input id="checkout-phone" name="phone" type="tel" autocomplete="tel" placeholder="+93 700 000 000" required>
                         </label>
 
                         <label class="checkout-field">
                             <span>City / area</span>
-                            <input id="checkout-location" name="location" type="text" placeholder="Kabul, Shahr-e-Naw">
+                            <input id="checkout-city" name="city" type="text" placeholder="Kabul, Shahr-e-Naw" required>
                         </label>
 
-                        <label class="checkout-field">
-                            <span>Timeline</span>
-                            <select id="checkout-timeline" name="timeline">
-                                <option>Standard quote</option>
-                                <option>Priority within 24h</option>
-                                <option>Urgent project</option>
+                        <label class="checkout-field full">
+                            <span>Shipping address</span>
+                            <input id="checkout-address" name="shippingAddress" type="text" placeholder="Street, building, floor, landmark" required>
+                        </label>
+
+                        <label class="checkout-field full">
+                            <span>Payment method</span>
+                            <select id="checkout-payment" name="paymentMethod" required>
+                                <option value="">Choose a payment method</option>
+                                <option>Cash on delivery</option>
+                                <option>Bank transfer</option>
+                                <option>Card payment on confirmation</option>
                             </select>
                         </label>
 
                         <label class="checkout-field full">
-                            <span>Measurements and notes</span>
-                            <textarea id="checkout-notes" name="notes" placeholder="Window width, height, fabric preference, motorized request, installation notes..."></textarea>
+                            <span>Order notes</span>
+                            <textarea id="checkout-notes" name="notes" placeholder="Delivery notes, installation request, preferred call time, special instructions..."></textarea>
                         </label>
                     </div>
 
                     <div class="checkout-badge">
                         <i class="fas fa-shield-heart"></i>
-                        Your request is sent as a private quote, not a public order. We review it and reply by email.
+                        Your order is saved instantly and appears in the admin panel for processing.
                     </div>
 
                     <div id="checkout-status" class="checkout-status" aria-live="polite"></div>
 
-                    <button type="submit" class="btn-primary" id="checkout-submit">Send request</button>
+                    <button type="submit" class="btn-primary" id="checkout-submit">Place order</button>
                 </form>
             </section>
 
             <aside class="checkout-summary">
                 <div>
                     <h2>Order review</h2>
-                    <p>These are the items currently saved in your cart.</p>
+                    <p>These items will be turned into a new order.</p>
                 </div>
 
                 <div id="checkout-items" class="checkout-summary-list"></div>
@@ -533,7 +527,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1775340315081"></script>
+    <script src="catalog-data.js?v=1775341815735"></script>
     <script>
         (function () {
             const storageKey = 'luxeCart';
@@ -549,8 +543,6 @@
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const header = document.querySelector('header');
             const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
-            const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
-
             const formatUsd = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
@@ -595,19 +587,19 @@
                 if (!items.length) {
                     checkoutItems.innerHTML = `
                         <div class="checkout-empty">
-                            Your cart is empty. Add items from the collection first, then return here to send a quote request.
+                            Your cart is empty. Add items from the collection first, then return here to place your order.
                             <div style="margin-top:14px;">
                                 <a href="index.html#products" class="btn-primary">Browse collection</a>
                             </div>
                         </div>
                     `;
                     checkoutSubmit.disabled = true;
-                    checkoutSubmit.textContent = 'Add items to checkout';
+                    checkoutSubmit.textContent = 'Add items to continue';
                     return;
                 }
 
                 checkoutSubmit.disabled = false;
-                checkoutSubmit.textContent = 'Send request';
+                checkoutSubmit.textContent = 'Place order';
 
                 checkoutItems.innerHTML = items.map((item) => `
                     <article class="checkout-summary-item">
@@ -628,58 +620,60 @@
 
                 const items = getItems();
                 if (!items.length) {
-                    setStatus('Add at least one item to your cart before sending a request.', 'is-error');
+                    setStatus('Add at least one item to your cart before placing an order.', 'is-error');
                     return;
                 }
 
                 const name = document.getElementById('checkout-name').value.trim();
                 const email = document.getElementById('checkout-email').value.trim();
-                const roomType = document.getElementById('checkout-room').value.trim();
                 const phone = document.getElementById('checkout-phone').value.trim();
-                const location = document.getElementById('checkout-location').value.trim();
-                const timeline = document.getElementById('checkout-timeline').value.trim();
+                const city = document.getElementById('checkout-city').value.trim();
+                const shippingAddress = document.getElementById('checkout-address').value.trim();
+                const paymentMethod = document.getElementById('checkout-payment').value.trim();
                 const notes = document.getElementById('checkout-notes').value.trim();
 
-                if (!name || !email || !roomType) {
+                if (!name || !email || !phone || !city || !shippingAddress || !paymentMethod) {
                     setStatus('Please complete the required fields.', 'is-error');
                     return;
                 }
 
-                if (!gmailPattern.test(email)) {
-                    setStatus('Please use a Gmail address only.', 'is-error');
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    setStatus('Please enter a valid email address.', 'is-error');
                     return;
                 }
 
                 const subtotal = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
-                const itemLines = items.map((item) => `- ${item.name} (${formatUsd(item.price)})`).join('\n');
-                const message = [
-                    `Cart subtotal: ${formatUsd(subtotal)}`,
-                    '',
-                    'Selected items:',
-                    itemLines,
-                    '',
-                    `Phone: ${phone || 'Not provided'}`,
-                    `Location: ${location || 'Not provided'}`,
-                    `Timeline: ${timeline || 'Not provided'}`,
-                    '',
-                    'Measurements and notes:',
-                    notes || 'No additional notes.'
-                ].join('\n');
+                const shippingFee = 0;
+                const total = subtotal + shippingFee;
+                const orderPayload = {
+                    customerName: name,
+                    email,
+                    phone,
+                    city,
+                    shippingAddress,
+                    paymentMethod,
+                    notes,
+                    subtotal,
+                    shippingFee,
+                    total,
+                    items: items.map((item) => ({
+                        key: item.key,
+                        id: item.id,
+                        name: item.name,
+                        category: item.category,
+                        image: item.image,
+                        price: Number(item.price || 0)
+                    }))
+                };
 
                 checkoutSubmit.disabled = true;
-                setStatus('Sending your request...', '');
+                setStatus('Placing your order...', '');
 
                 try {
-                    const response = await fetch('/api/contact-messages', {
+                    const response = await fetch('/api/orders', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            name,
-                            email,
-                            roomType,
-                            message,
-                            source: 'checkout'
-                        })
+                        body: JSON.stringify(orderPayload)
                     });
 
                     const raw = await response.text();
@@ -693,14 +687,18 @@
                     }
 
                     if (!response.ok) {
-                        throw new Error(payload.error || `Checkout request failed (${response.status})`);
+                        throw new Error(payload.error || `Order placement failed (${response.status})`);
                     }
 
+                    localStorage.setItem('luxeLastOrder', JSON.stringify(payload));
+                    localStorage.removeItem(storageKey);
                     checkoutForm.reset();
-                    setStatus('Your checkout request was sent successfully. We will review it in the admin panel.', 'is-success');
+                    setStatus('Your order was placed successfully.', 'is-success');
+                    window.location.href = `order-success.html?order=${encodeURIComponent(payload.id)}`;
                 } catch (error) {
-                    setStatus(error.message || 'Could not send checkout request.', 'is-error');
+                    setStatus(error.message || 'Could not place your order.', 'is-error');
                 } finally {
+                    cart.clear();
                     renderSummary();
                 }
             });

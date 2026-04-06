@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775508386185">
-    <link rel="stylesheet" href="saved-pages.css?v=1775508386185">
+    <link rel="stylesheet" href="style.css?v=1775509310454">
+    <link rel="stylesheet" href="saved-pages.css?v=1775509310454">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -364,11 +364,14 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#products">Collections</a></li>
                 <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="cart.html">Cart</a></li>
                 <li><a href="checkout.html">Checkout</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
 
+            <a href="cart.html" class="header-cart-link" aria-label="Open cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="header-cart-count" data-cart-count>0</span>
+            </a>
             <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
@@ -527,7 +530,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1775508386185"></script>
+    <script src="catalog-data.js?v=1775509310454"></script>
     <script>
         (function () {
             const storageKey = 'luxeCart';
@@ -543,6 +546,7 @@
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const header = document.querySelector('header');
             const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
+            const headerCartCount = document.querySelector('[data-cart-count]');
             const formatUsd = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
@@ -580,6 +584,11 @@
             const renderSummary = () => {
                 const items = getItems();
                 const total = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+
+                if (headerCartCount) {
+                    headerCartCount.textContent = String(items.length);
+                    headerCartCount.classList.toggle('has-items', items.length > 0);
+                }
 
                 checkoutCount.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
                 checkoutTotal.textContent = formatUsd(total);

@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775508386185">
+    <link rel="stylesheet" href="style.css?v=1775509310454">
     <style>
         :root {
             --collection-bg: #f4f2ee;
@@ -595,26 +595,26 @@
             }
 
             .modal-content {
-                width: min(100%, 440px);
-                padding: 18px 16px;
+                width: min(100%, 392px);
+                padding: 16px 14px;
                 border-radius: 18px;
             }
 
             .modal-body {
-                gap: 16px;
+                gap: 14px;
             }
 
             .modal-body img {
-                max-height: 240px;
+                max-height: 210px;
             }
 
             .modal-info h2 {
-                font-size: 1.55rem;
+                font-size: 1.4rem;
             }
 
             .modal-info p {
-                font-size: 0.95rem;
-                line-height: 1.65;
+                font-size: 0.9rem;
+                line-height: 1.58;
             }
         }
 
@@ -659,8 +659,8 @@
             }
 
             .modal-content {
-                width: 100%;
-                padding: 16px 14px;
+                width: min(100%, 340px);
+                padding: 14px 12px;
                 border-radius: 16px;
             }
 
@@ -675,7 +675,7 @@
             }
 
             .modal-body img {
-                max-height: 210px;
+                max-height: 180px;
                 border-radius: 12px;
             }
 
@@ -684,19 +684,19 @@
             }
 
             .modal-info h2 {
-                font-size: 1.28rem;
+                font-size: 1.16rem;
                 margin-top: 0;
             }
 
             .modal-info p {
-                font-size: 0.88rem;
-                line-height: 1.55;
+                font-size: 0.82rem;
+                line-height: 1.48;
             }
 
             .modal-info .btn-primary,
             .modal-info .btn-secondary {
-                padding: 11px 14px;
-                font-size: 0.92rem;
+                padding: 10px 12px;
+                font-size: 0.86rem;
             }
 
             .products-grid {
@@ -756,11 +756,14 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#products">Collections</a></li>
                 <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="cart.html">Cart</a></li>
                 <li><a href="checkout.html">Checkout</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
 
+            <a href="cart.html" class="header-cart-link" aria-label="Open cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="header-cart-count" data-cart-count>0</span>
+            </a>
             <button class="header-btn" type="button">Start Checkout</button>
             <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
@@ -902,6 +905,8 @@
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
         const headerConsultBtn = document.querySelector('header .header-btn');
+        const headerCartLink = document.querySelector('.header-cart-link');
+        const headerCartCount = document.querySelector('[data-cart-count]');
 
         const USD_RATE = 42000;
         const wishlistKey = 'luxeFavorites';
@@ -922,6 +927,18 @@
         const writeSet = (key, values) => {
             localStorage.setItem(key, JSON.stringify(Array.from(values)));
         };
+        const syncHeaderCart = () => {
+            if (!headerCartCount) return;
+            const count = readSet(cartKey).size;
+            headerCartCount.textContent = String(count);
+            headerCartCount.classList.toggle('has-items', count > 0);
+        };
+        const bumpHeaderCart = () => {
+            if (!headerCartLink) return;
+            headerCartLink.classList.remove('is-bump');
+            void headerCartLink.offsetWidth;
+            headerCartLink.classList.add('is-bump');
+        };
         const showToast = (message) => {
             let toast = document.querySelector('.collection-toast');
             if (!toast) {
@@ -938,8 +955,13 @@
         };
         const addToSavedList = (storageKey, itemKey) => {
             const values = readSet(storageKey);
+            const alreadyExists = values.has(itemKey);
             values.add(itemKey);
             writeSet(storageKey, values);
+            if (storageKey === cartKey) {
+                syncHeaderCart();
+            }
+            return !alreadyExists;
         };
         const goToSavedPage = (page, itemKey) => {
             window.location.href = `${page}.html?focus=${encodeURIComponent(itemKey)}`;
@@ -1108,16 +1130,16 @@
             if (!itemKey || !getItemByKey(itemKey)) return;
 
             if (event.target.closest('.favorite-btn')) {
-                addToSavedList(wishlistKey, itemKey);
-                showToast('Added to wishlist');
+                const added = addToSavedList(wishlistKey, itemKey);
+                showToast(added ? 'Added to wishlist' : 'Already in wishlist');
                 setTimeout(() => goToSavedPage('wishlist', itemKey), 180);
                 return;
             }
 
             if (event.target.closest('.cart-btn')) {
-                addToSavedList(cartKey, itemKey);
-                showToast('Added to cart');
-                setTimeout(() => goToSavedPage('cart', itemKey), 180);
+                const added = addToSavedList(cartKey, itemKey);
+                showToast(added ? 'Added to cart' : 'Already in cart');
+                if (added) bumpHeaderCart();
                 return;
             }
 
@@ -1142,11 +1164,10 @@
 
         modalPrimaryBtn.addEventListener('click', () => {
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
-            addToSavedList(cartKey, activeModalKey);
-            showToast('Added to cart');
-            const nextKey = activeModalKey;
+            const added = addToSavedList(cartKey, activeModalKey);
+            showToast(added ? 'Added to cart' : 'Already in cart');
+            if (added) bumpHeaderCart();
             hideModal();
-            setTimeout(() => goToSavedPage('cart', nextKey), 180);
         });
 
         modalSecondaryBtn.addEventListener('click', () => {
@@ -1176,6 +1197,7 @@
         headerConsultBtn?.addEventListener('click', () => {
             window.location.href = 'index.html#contact';
         });
+        syncHeaderCart();
         document.querySelectorAll('.nav-links a').forEach((link) => {
             link.addEventListener('click', () => {
                 closeMobileMenu();

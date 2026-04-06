@@ -25,12 +25,15 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="zebra-collection.html">Collections</a></li>
                 <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="cart.html">Cart</a></li>
                 <li><a href="checkout.html">Checkout</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
+            <a href="cart.html" class="header-cart-link" aria-label="Open cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="header-cart-count" data-cart-count>0</span>
+            </a>
             <button class="header-btn" type="button">Start Checkout</button>
             <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
@@ -526,6 +529,8 @@
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
         const headerConsultBtn = document.querySelector('header .header-btn');
+        const headerCartCount = document.querySelector('[data-cart-count]');
+        const headerCartLink = document.querySelector('.header-cart-link');
         const filterButtons = document.querySelectorAll('.products-filter .filter-btn');
         const productCards = Array.from(document.querySelectorAll('.products-grid .product-card:not(.explore-card)'));
         const productsGrid = document.querySelector('.products-grid');
@@ -611,6 +616,19 @@
                     cartBtn.setAttribute('aria-label', isAdded ? 'Open cart' : 'Add to cart');
                 }
             });
+
+            if (headerCartCount) {
+                const count = cart.size;
+                headerCartCount.textContent = String(count);
+                headerCartCount.classList.toggle('has-items', count > 0);
+            }
+        };
+
+        const bumpHeaderCart = () => {
+            if (!headerCartLink) return;
+            headerCartLink.classList.remove('is-bump');
+            void headerCartLink.offsetWidth;
+            headerCartLink.classList.add('is-bump');
         };
 
         const applyMobileProductLayout = () => {
@@ -1054,7 +1072,7 @@
                             updateActionState();
                             syncPanels();
                             showActionToast(added ? 'Added to cart' : 'Already in cart');
-                            setTimeout(() => gotoCartPage(key), 140);
+                            if (added) bumpHeaderCart();
                             return;
                         }
 
@@ -1092,8 +1110,8 @@
             updateActionState();
             syncPanels();
             showActionToast(added ? 'Added to cart' : 'Already in cart');
+            if (added) bumpHeaderCart();
             closeQuickView();
-            setTimeout(() => gotoCartPage(activeProductKey), 140);
         });
 
         favoritesPanel?.addEventListener('click', handlePanelAction);

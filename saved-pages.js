@@ -46,6 +46,7 @@
     const header = document.querySelector('header');
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
+    const headerCartCount = document.querySelector('[data-cart-count]');
     let focusTimer = null;
     const USD_RATE = 42000;
 
@@ -91,6 +92,7 @@
 
     const render = () => {
         const activeSet = readSet(storageKeys[pageType] || storageKeys.wishlist);
+        const cartSet = readSet(storageKeys.cart);
         const items = Array.from(activeSet)
             .map(getCatalogItem)
             .filter(Boolean);
@@ -103,6 +105,10 @@
         primaryCtaEl.textContent = config.primaryLabel;
         primaryCtaEl.href = config.primaryHref;
         countEl.textContent = `${items.length} ${config.countLabel}${items.length === 1 ? '' : 's'}`;
+        if (headerCartCount) {
+            headerCartCount.textContent = String(cartSet.size);
+            headerCartCount.classList.toggle('has-items', cartSet.size > 0);
+        }
 
         renderSummary(items);
 

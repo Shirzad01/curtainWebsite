@@ -467,7 +467,27 @@
             .collection-hero {
                 margin: 18px 2.4% 0;
                 border-radius: 24px;
-                padding: 145px 7% 72px;
+                min-height: 60vh;
+                padding: 120px 6% 64px;
+            }
+
+            .video-bg video {
+                transform: scale(1.02);
+            }
+
+            .hero-overlay {
+                max-width: 760px;
+                padding: 30px 24px;
+                border-radius: 22px;
+            }
+
+            .hero-overlay h1 {
+                font-size: clamp(2rem, 7vw, 3.8rem);
+            }
+
+            .hero-overlay p {
+                font-size: 1rem;
+                line-height: 1.7;
             }
 
             .modal-body {
@@ -481,6 +501,34 @@
         }
 
         @media (max-width: 700px) {
+            .collection-hero {
+                margin: 14px 0 0;
+                min-height: 54vh;
+                padding: 104px 16px 40px;
+                border-radius: 0 0 24px 24px;
+            }
+
+            .video-bg::after {
+                background: linear-gradient(180deg, rgba(16, 16, 16, 0.72), rgba(16, 16, 16, 0.44));
+            }
+
+            .hero-overlay {
+                width: min(100%, 100%);
+                padding: 24px 18px;
+                border-radius: 18px;
+                backdrop-filter: blur(8px);
+            }
+
+            .hero-overlay h1 {
+                font-size: clamp(1.8rem, 9vw, 2.9rem);
+                margin-bottom: 12px;
+            }
+
+            .hero-overlay p {
+                font-size: 0.95rem;
+                line-height: 1.65;
+            }
+
             .sort-filter {
                 margin: 28px 4.5% 16px;
                 align-items: flex-start;
@@ -510,15 +558,49 @@
             }
 
             .hero-stats {
-                gap: 10px;
+                margin-top: 20px;
+                gap: 8px;
             }
 
             .hero-stat {
-                font-size: 0.8rem;
+                padding: 8px 12px;
+                font-size: 0.75rem;
+                letter-spacing: 0.02em;
             }
         }
 
         @media (max-width: 480px) {
+            .collection-hero {
+                min-height: 48vh;
+                padding: 96px 12px 34px;
+                border-radius: 0 0 20px 20px;
+            }
+
+            .hero-overlay {
+                padding: 20px 14px;
+                border-radius: 16px;
+            }
+
+            .hero-overlay h1 {
+                font-size: clamp(1.6rem, 9.5vw, 2.35rem);
+                line-height: 1.06;
+            }
+
+            .hero-overlay p {
+                font-size: 0.9rem;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-stat {
+                width: calc(50% - 4px);
+                justify-content: center;
+                text-align: center;
+                font-size: 0.72rem;
+            }
+
             .products-grid {
                 width: 100%;
                 padding-inline: 12px;

@@ -184,6 +184,28 @@ body::after {
             box-shadow: 0 14px 28px rgba(201, 169, 98, 0.2);
         }
 
+        .header-cart-link:focus-visible {
+            outline: none;
+            border-color: rgba(201, 169, 98, 0.7);
+            box-shadow: 0 0 0 4px rgba(201, 169, 98, 0.18), 0 14px 28px rgba(201, 169, 98, 0.2);
+        }
+
+        .header-cart-link:active {
+            transform: translateY(1px) scale(0.97);
+            box-shadow: 0 8px 18px rgba(17, 17, 17, 0.1);
+        }
+
+        .header-cart-link.is-current {
+            background: rgba(201, 169, 98, 0.14);
+            border-color: rgba(201, 169, 98, 0.42);
+            color: var(--primary);
+            box-shadow: 0 12px 28px rgba(201, 169, 98, 0.16);
+        }
+
+        .header-cart-link.is-current i {
+            transform: translateY(-1px);
+        }
+
         .header-cart-link i {
             font-size: 18px;
         }

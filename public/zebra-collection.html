@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775506449413">
+    <link rel="stylesheet" href="style.css?v=1775507805168">
     <style>
         :root {
             --collection-bg: #f4f2ee;
@@ -396,6 +396,11 @@
             gap: 14px;
         }
 
+        .modal-info .btn-primary,
+        .modal-info .btn-secondary {
+            width: 100%;
+        }
+
         .modal-info h2 {
             font-family: 'Playfair Display', serif;
             margin: 8px 0 0;
@@ -498,6 +503,11 @@
                 width: 100%;
                 max-height: 300px;
             }
+
+            .modal-content {
+                width: min(640px, 100%);
+                padding: 20px;
+            }
         }
 
         @media (max-width: 700px) {
@@ -568,6 +578,33 @@
                 font-size: 0.66rem;
                 letter-spacing: 0.02em;
             }
+
+            .modal {
+                padding: 14px;
+            }
+
+            .modal-content {
+                width: min(100%, 440px);
+                padding: 18px 16px;
+                border-radius: 18px;
+            }
+
+            .modal-body {
+                gap: 16px;
+            }
+
+            .modal-body img {
+                max-height: 240px;
+            }
+
+            .modal-info h2 {
+                font-size: 1.55rem;
+            }
+
+            .modal-info p {
+                font-size: 0.95rem;
+                line-height: 1.65;
+            }
         }
 
         @media (max-width: 480px) {
@@ -604,6 +641,51 @@
                 text-align: center;
                 font-size: 0.62rem;
                 padding: 5px 7px;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                width: 100%;
+                padding: 16px 14px;
+                border-radius: 16px;
+            }
+
+            .close-modal {
+                top: 4px;
+                right: 12px;
+                font-size: 28px;
+            }
+
+            .modal-body {
+                gap: 12px;
+            }
+
+            .modal-body img {
+                max-height: 210px;
+                border-radius: 12px;
+            }
+
+            .modal-info {
+                gap: 10px;
+            }
+
+            .modal-info h2 {
+                font-size: 1.28rem;
+                margin-top: 0;
+            }
+
+            .modal-info p {
+                font-size: 0.88rem;
+                line-height: 1.55;
+            }
+
+            .modal-info .btn-primary,
+            .modal-info .btn-secondary {
+                padding: 11px 14px;
+                font-size: 0.92rem;
             }
 
             .products-grid {
@@ -847,6 +929,9 @@
             values.add(itemKey);
             writeSet(storageKey, values);
         };
+        const goToSavedPage = (page, itemKey) => {
+            window.location.href = `${page}.html?focus=${encodeURIComponent(itemKey)}`;
+        };
         const truncate = (text, max = 90) => {
             const value = String(text || '');
             return value.length > max ? `${value.slice(0, max).trim()}...` : value;
@@ -1004,12 +1089,14 @@
             if (event.target.closest('.favorite-btn')) {
                 addToSavedList(wishlistKey, itemKey);
                 showToast('Added to wishlist');
+                setTimeout(() => goToSavedPage('wishlist', itemKey), 180);
                 return;
             }
 
             if (event.target.closest('.cart-btn')) {
                 addToSavedList(cartKey, itemKey);
                 showToast('Added to cart');
+                setTimeout(() => goToSavedPage('cart', itemKey), 180);
                 return;
             }
 
@@ -1036,16 +1123,20 @@
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
             addToSavedList(cartKey, activeModalKey);
             showToast('Added to cart');
+            const nextKey = activeModalKey;
             modal.style.display = 'none';
             activeModalKey = '';
+            setTimeout(() => goToSavedPage('cart', nextKey), 180);
         });
 
         modalSecondaryBtn.addEventListener('click', () => {
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
             addToSavedList(wishlistKey, activeModalKey);
             showToast('Added to wishlist');
+            const nextKey = activeModalKey;
             modal.style.display = 'none';
             activeModalKey = '';
+            setTimeout(() => goToSavedPage('wishlist', nextKey), 180);
         });
 
         closeModal.addEventListener('click', () => {

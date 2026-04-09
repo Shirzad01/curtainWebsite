@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775603154500">
+    <link rel="stylesheet" href="style.css?v=1775774776082">
     <style>
         :root {
             --collection-bg: #f4f2ee;
@@ -746,7 +746,7 @@
 <body data-site-page="collection">
 
     <div data-site-header></div>
-    <script src="site-header.js?v=1775603154500"></script>
+    <script src="site-header.js?v=1775774776082"></script>
 
     <section class="collection-hero">
         <div class="video-bg">
@@ -923,6 +923,24 @@
             void headerCartLink.offsetWidth;
             headerCartLink.classList.add('is-bump');
         };
+        const updateActionState = () => {
+            const wishlist = readSet(wishlistKey);
+            const cart = readSet(cartKey);
+
+            Array.from(grid.querySelectorAll('.product-card')).forEach((card) => {
+                const key = card.dataset.key;
+                const favoriteBtn = card.querySelector('.favorite-btn');
+                const cartBtn = card.querySelector('.cart-btn');
+                if (favoriteBtn) {
+                    favoriteBtn.classList.toggle('is-favorite', Boolean(key) && wishlist.has(key));
+                    favoriteBtn.setAttribute('aria-label', wishlist.has(key) ? 'In wishlist' : 'Add to wishlist');
+                }
+                if (cartBtn) {
+                    cartBtn.classList.toggle('is-added', Boolean(key) && cart.has(key));
+                    cartBtn.setAttribute('aria-label', cart.has(key) ? 'In cart' : 'Add to cart');
+                }
+            });
+        };
         const showToast = (message) => {
             let toast = document.querySelector('.collection-toast');
             if (!toast) {
@@ -948,6 +966,7 @@
             if (storageKey === wishlistKey) {
                 syncHeaderWishlist();
             }
+            window.dispatchEvent(new Event(storageKey === cartKey ? 'cart-updated' : 'wishlist-updated'));
             return !alreadyExists;
         };
         const goToSavedPage = (page, itemKey) => {
@@ -1016,6 +1035,7 @@
                 </div>`;
             }).join('');
             applyMobileProductLayout();
+            updateActionState();
         };
 
         const applyMobileProductLayout = () => {
@@ -1109,6 +1129,7 @@
             if (event.target.closest('.favorite-btn')) {
                 const added = addToSavedList(wishlistKey, itemKey);
                 showToast(added ? 'Added to wishlist' : 'Already in wishlist');
+                updateActionState();
                 setTimeout(() => goToSavedPage('wishlist', itemKey), 180);
                 return;
             }
@@ -1117,6 +1138,7 @@
                 const added = addToSavedList(cartKey, itemKey);
                 showToast(added ? 'Added to cart' : 'Already in cart');
                 if (added) bumpHeaderCart();
+                updateActionState();
                 return;
             }
 
@@ -1144,13 +1166,15 @@
             const added = addToSavedList(cartKey, activeModalKey);
             showToast(added ? 'Added to cart' : 'Already in cart');
             if (added) bumpHeaderCart();
+            updateActionState();
             hideModal();
         });
 
         modalSecondaryBtn.addEventListener('click', () => {
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
-            addToSavedList(wishlistKey, activeModalKey);
-            showToast('Added to wishlist');
+            const added = addToSavedList(wishlistKey, activeModalKey);
+            showToast(added ? 'Added to wishlist' : 'Already in wishlist');
+            updateActionState();
             const nextKey = activeModalKey;
             hideModal();
             setTimeout(() => goToSavedPage('wishlist', nextKey), 180);
@@ -1168,6 +1192,23 @@
 
         window.addEventListener('scroll', () => {
             header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        window.addEventListener('pageshow', () => {
+            // Handles bfcache back/forward so icon state stays correct after returning.
+            syncHeaderWishlist();
+            syncHeaderCart();
+            updateActionState();
+        });
+        window.addEventListener('storage', (event) => {
+            if (event.key === wishlistKey) {
+                syncHeaderWishlist();
+                updateActionState();
+            }
+            if (event.key === cartKey) {
+                syncHeaderCart();
+                updateActionState();
+            }
         });
 
         headerConsultBtn?.addEventListener('click', () => {

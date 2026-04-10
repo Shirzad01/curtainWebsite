@@ -23,9 +23,26 @@ module.exports = async (req, res) => {
     const payload = await readJson(req);
     const action = String(payload.action || '').trim();
     const key = normalizeKey(payload.key || payload.itemKey);
+    const supportedActions = new Set([
+      'add-cart',
+      'remove-cart',
+      'clear-cart',
+      'add-wishlist',
+      'remove-wishlist',
+      'clear-wishlist',
+      'move-to-cart',
+      'move-to-wishlist',
+      'set-last-order',
+      'clear-last-order'
+    ]);
 
     if (!action) {
       sendJson(res, 400, { error: 'Missing action' });
+      return;
+    }
+
+    if (!supportedActions.has(action)) {
+      sendJson(res, 400, { error: 'Unsupported action' });
       return;
     }
 
@@ -75,8 +92,6 @@ module.exports = async (req, res) => {
         case 'clear-last-order':
           lastOrder = null;
           break;
-        default:
-          return null;
       }
 
       return {

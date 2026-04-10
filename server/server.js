@@ -4,6 +4,7 @@ const cors = require('cors');
 const Database = require('better-sqlite3');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const sessionStateHandler = require('../api/session-state');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,8 @@ app.use(express.json());
 
 const rootDir = path.join(__dirname, '..');
 app.use(express.static(rootDir));
+
+app.all('/api/session-state', (req, res) => sessionStateHandler(req, res));
 
 const initDb = () => {
   db.exec(`

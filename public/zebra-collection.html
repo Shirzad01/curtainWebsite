@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1775940199824">
+    <link rel="stylesheet" href="style.css?v=1775943983698">
     <style>
         :root {
             --collection-bg: #f4f2ee;
@@ -117,6 +117,301 @@
             padding-bottom: 80px;
         }
 
+        .filter-orbit-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 34px 8% 10px;
+            z-index: 30;
+        }
+
+        .orbit-main-btn {
+            position: absolute;
+            inset: 0;
+            width: 86px;
+            height: 86px;
+            margin: auto;
+            border-radius: 50%;
+            background: var(--collection-dark);
+            color: var(--collection-accent);
+            border: 2px solid rgba(184, 138, 68, 0.85);
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.25s ease, color 0.25s ease;
+            display: grid;
+            place-items: center;
+            gap: 4px;
+            box-shadow: 0 18px 40px rgba(25, 20, 10, 0.24);
+        }
+
+        .orbit-main-btn span {
+            font-size: 0.74rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .orbit-main-btn.active {
+            transform: scale(0.88) rotate(135deg);
+            background: var(--collection-accent);
+            color: #111;
+        }
+
+        .orbit-item {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(184, 138, 68, 0.45);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translate3d(0, 0, 0);
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 5;
+            box-shadow: 0 14px 32px rgba(25, 20, 10, 0.12);
+            color: var(--collection-dark);
+        }
+
+        .orbit-main-btn.active + #orbitItems .orbit-item:nth-child(1) {
+            opacity: 1;
+            transform: translate(110px, -64px);
+        }
+
+        .orbit-main-btn.active + #orbitItems .orbit-item:nth-child(2) {
+            opacity: 1;
+            transform: translate(132px, 42px);
+        }
+
+        .orbit-main-btn.active + #orbitItems .orbit-item:nth-child(3) {
+            opacity: 1;
+            transform: translate(0px, 120px);
+        }
+
+        .orbit-dropdown {
+            position: absolute;
+            background: rgba(255, 252, 248, 0.98);
+            padding: 14px 14px;
+            border-radius: 14px;
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14);
+            display: none;
+            top: 62px;
+            left: 0;
+            min-width: 190px;
+            border: 1px solid rgba(184, 138, 68, 0.22);
+        }
+
+        .orbit-item:hover .orbit-dropdown,
+        .orbit-item.is-open .orbit-dropdown {
+            display: block;
+        }
+
+        .orbit-dropdown p {
+            margin: 0 0 10px;
+            font-weight: 800;
+            color: var(--collection-dark);
+        }
+
+        .color-opts {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .c-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(25, 20, 10, 0.18);
+        }
+
+        .c-dot.is-active {
+            outline: 0;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(184, 138, 68, 0.9), 0 10px 22px rgba(25, 20, 10, 0.18);
+        }
+
+        .m-btn {
+            border: 1px solid rgba(184, 138, 68, 0.22);
+            background: rgba(255, 255, 255, 0.86);
+            color: var(--collection-dark);
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            margin-right: 8px;
+            margin-top: 6px;
+        }
+
+        .m-btn.is-active {
+            background: var(--collection-dark);
+            color: #fff;
+            border-color: var(--collection-dark);
+        }
+
+        .m-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(25, 20, 10, 0.12);
+        }
+
+        .filter-container-premium {
+            margin: 34px 8% 22px;
+            padding: 22px 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(184, 138, 68, 0.16);
+            background: rgba(255, 252, 248, 0.74);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 18px 34px rgba(27, 22, 14, 0.08);
+            position: sticky;
+            top: 84px;
+            z-index: 25;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeInUp 0.8s ease forwards 0.35s;
+            transition:
+                padding 0.25s ease,
+                margin 0.25s ease,
+                border-radius 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                backdrop-filter 0.25s ease,
+                top 0.25s ease;
+        }
+
+        .filter-container-premium.is-scrolled {
+            margin: 0;
+            width: 100%;
+            top: 0;
+            padding: 10px 16px 9px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 14px 28px rgba(27, 22, 14, 0.12);
+            background: rgba(255, 252, 248, 0.86);
+            z-index: 1101;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed rgba(45, 39, 28, 0.12);
+        }
+
+        .filter-container-premium.is-scrolled .filter-header {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+            min-width: 132px;
+            flex: 0 0 auto;
+        }
+
+        .filter-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+            color: var(--collection-dark);
+        }
+
+        .active-count {
+            font-size: 12px;
+            color: var(--collection-muted);
+            white-space: nowrap;
+        }
+
+        .filter-container-premium.is-scrolled .active-count {
+            display: none;
+        }
+
+        .filter-scroll-wrapper {
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-container-premium.is-scrolled .filter-scroll-wrapper {
+            flex: 1;
+            padding-bottom: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            white-space: nowrap;
+            align-items: center;
+        }
+
+        .filter-container-premium.is-scrolled .filter-group {
+            gap: 8px;
+        }
+
+        .filter-chip {
+            background: transparent;
+            border: 1px solid var(--collection-border);
+            padding: 12px 24px;
+            border-radius: 50px;
+            color: var(--collection-muted);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 0 0 auto;
+        }
+
+        .filter-container-premium.is-scrolled .filter-chip {
+            padding: 9px 16px;
+            font-size: 12px;
+            gap: 8px;
+        }
+
+        .filter-chip i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-chip:hover {
+            background: var(--collection-bg);
+            border-color: var(--collection-accent);
+            color: var(--collection-dark);
+            transform: translateY(-2px);
+        }
+
+        .filter-chip.active {
+            background: var(--collection-dark);
+            color: #fff;
+            border-color: var(--collection-dark);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .filter-chip.active i {
+            color: var(--collection-accent);
+            transform: rotate(10deg);
+        }
+
+        .products-grid.is-updating {
+            opacity: 0.55;
+            transform: translateY(8px);
+        }
+
         .sort-filter {
             display: grid;
             grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
@@ -135,43 +430,121 @@
             opacity: 0;
             transform: translateY(14px);
             animation: fadeInUp 0.8s ease forwards 0.35s;
+            transition:
+                padding 0.25s ease,
+                gap 0.25s ease,
+                border-radius 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                backdrop-filter 0.25s ease,
+                top 0.25s ease,
+                margin 0.25s ease;
+        }
+
+        .sort-filter-compact {
+            display: none;
         }
 
         .sort-filter.is-scrolled {
-            padding: 10px 14px;
-            border-radius: 20px;
-            gap: 12px;
-            top: 72px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px 8px 12px;
+            border-radius: 0 0 18px 18px;
+            top: 0;
+            margin: 0;
+            width: 100%;
+            min-height: 58px;
             box-shadow: 0 14px 28px rgba(27, 22, 14, 0.12);
+            z-index: 1101;
+            grid-template-columns: none;
+        }
+
+        .sort-filter.is-scrolled .sort-filter-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(184, 138, 68, 0.2);
+            background: rgba(255, 252, 248, 0.82);
+            color: var(--collection-dark);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .sort-filter.is-scrolled .sort-filter-compact .compact-icon {
+            color: var(--collection-accent);
+            font-size: 0.95rem;
         }
 
         .sort-filter.is-scrolled .section-kicker {
-            margin-bottom: 3px;
-            font-size: 0.72rem;
+            display: none;
         }
 
         .sort-filter.is-scrolled .section-title {
-            font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+            display: none;
+        }
+
+        .sort-filter.is-scrolled .filters-bar {
+            flex: 1;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 8px;
+            align-items: center;
+            scrollbar-width: none;
+        }
+
+        .sort-filter.is-scrolled .filters-bar::-webkit-scrollbar {
+            display: none;
         }
 
         .sort-filter.is-scrolled .filter-group label {
+            display: none;
+        }
+
+        .sort-filter.is-scrolled .filter-group {
+            flex: 0 0 auto;
+        }
+
+        .sort-filter.is-scrolled .filter-group label {
+            display: none;
+        }
+
+        .sort-filter.is-scrolled .price-range-readout {
             margin-bottom: 6px;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
         }
 
         .sort-filter.is-scrolled .filter-pill {
-            padding: 9px 13px;
-            font-size: 0.84rem;
+            padding: 7px 10px;
+            font-size: 0.74rem;
         }
 
         .sort-filter.is-scrolled .sort-mini {
-            min-height: 44px;
-            padding: 10px 12px;
+            min-height: 34px;
+            padding: 6px 8px;
         }
 
         .sort-filter.is-scrolled .clear-filters-btn {
-            min-height: 44px;
-            padding: 10px 14px;
+            min-height: 34px;
+            padding: 6px 10px;
+            font-size: 0.74rem;
+        }
+
+        .sort-filter.is-scrolled .color-swatch {
+            width: 30px;
+            height: 30px;
+        }
+
+        .sort-filter.is-scrolled .swatch {
+            width: 18px;
+            height: 18px;
         }
 
         .filters-bar {
@@ -872,12 +1245,28 @@
                 line-height: 1.48;
             }
 
-            .sort-filter {
-                margin: 28px 4.5% 16px;
-                grid-template-columns: 1fr;
-                gap: 12px;
-                position: static;
-                top: auto;
+            .filter-trigger-wrapper {
+                margin: 20px 14px 14px;
+            }
+
+            .filter-sidebar {
+                width: min(100vw, 400px);
+            }
+
+            .sidebar-content {
+                padding: 18px 18px 20px;
+            }
+
+            .sidebar-header {
+                padding: 18px;
+            }
+
+            .sidebar-footer {
+                padding: 16px 18px 18px;
+            }
+
+            .type-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .products-grid {
@@ -943,6 +1332,24 @@
                 min-height: 48vh;
                 padding: 96px 10px 34px;
                 border-radius: 0 0 20px 20px;
+            }
+
+            .filter-trigger-wrapper {
+                margin: 18px 10px 12px;
+                gap: 12px;
+            }
+
+            .luxe-filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-sidebar {
+                width: 100vw;
+            }
+
+            .type-grid {
+                grid-template-columns: 1fr;
             }
 
             .hero-overlay {
@@ -1081,8 +1488,8 @@
 <body data-site-page="collection">
 
     <div data-site-header></div>
-    <script src="site-state.js?v=1775940199824"></script>
-    <script src="site-header.js?v=1775940199824"></script>
+    <script src="site-state.js?v=1775943983698"></script>
+    <script src="site-header.js?v=1775943983698"></script>
 
     <section class="collection-hero">
         <div class="video-bg">
@@ -1105,59 +1512,39 @@
     </section>
 
     <section class="products" style="padding-top: 0;">
-        <div class="sort-filter">
-            <div>
-                <p class="section-kicker">Premium Selection</p>
-                <h2 class="section-title">Find Your Perfect Zebra Shade</h2>
-            </div>
-            <div class="filters-bar">
-                <div class="filter-group">
-                    <label>Curtain type</label>
-                    <div class="pill-group" id="type-filter">
-                        <button type="button" class="filter-pill is-active" data-type-pill="all">All</button>
-                        <button type="button" class="filter-pill" data-type-pill="zebra">Zebra</button>
-                        <button type="button" class="filter-pill" data-type-pill="blackout">Blackout</button>
-                        <button type="button" class="filter-pill" data-type-pill="sheer">Sheer</button>
-                        <button type="button" class="filter-pill" data-type-pill="luxury">Luxury</button>
+        <div class="filter-orbit-container">
+            <button class="orbit-main-btn" id="orbitBtn" type="button" aria-label="Toggle filters">
+                <i class="fa-solid fa-filter"></i>
+                <span>Filter</span>
+            </button>
+
+            <div class="orbit-items" id="orbitItems">
+                <div class="orbit-item" data-type="price" role="button" tabindex="0" aria-label="Price filter">
+                    <i class="fa-solid fa-tag"></i>
+                    <div class="orbit-dropdown">
+                        <p>Max Price: <span id="p-val">$1000</span></p>
+                        <input type="range" min="50" max="1000" value="1000" id="p-range">
                     </div>
                 </div>
-                <div class="filter-group">
-                    <label>Color family</label>
-                    <div class="swatch-group" id="color-filter">
-                        <button type="button" class="color-swatch is-active" data-color-swatch="all" aria-label="All colors"><span class="swatch all"></span></button>
-                        <button type="button" class="color-swatch" data-color-swatch="white" aria-label="White"><span class="swatch white"></span></button>
-                        <button type="button" class="color-swatch" data-color-swatch="gray" aria-label="Gray"><span class="swatch gray"></span></button>
-                        <button type="button" class="color-swatch" data-color-swatch="beige" aria-label="Beige"><span class="swatch beige"></span></button>
-                        <button type="button" class="color-swatch" data-color-swatch="black" aria-label="Black"><span class="swatch black"></span></button>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <label>Price range</label>
-                    <div class="price-range-shell" id="price-filter">
-                        <div class="price-range-readout">
-                            <span id="price-min-label">$50</span>
-                            <span id="price-max-label">$300</span>
-                        </div>
-                        <div class="dual-range">
-                            <div class="dual-range-track"><span class="dual-range-fill" id="price-range-fill"></span></div>
-                            <input type="range" id="price-min" min="40" max="300" step="5" value="50" aria-label="Minimum price">
-                            <input type="range" id="price-max" min="40" max="300" step="5" value="300" aria-label="Maximum price">
+
+                <div class="orbit-item" data-type="color" role="button" tabindex="0" aria-label="Color filter">
+                    <i class="fa-solid fa-palette"></i>
+                    <div class="orbit-dropdown">
+                        <div class="color-opts">
+                            <span class="c-dot" style="background:#000" data-color="black" role="button" tabindex="0" aria-label="Black"></span>
+                            <span class="c-dot" style="background:#C9A962" data-color="gold" role="button" tabindex="0" aria-label="Gold"></span>
+                            <span class="c-dot" style="background:#fff; border:1px solid #ddd" data-color="white" role="button" tabindex="0" aria-label="White"></span>
                         </div>
                     </div>
                 </div>
-                <div class="filter-group">
-                    <label for="sort-select">Sort</label>
-                    <div class="sort-mini">
-                        <span class="sort-mini-icon">↕</span>
-                        <select class="sort-select sort-select-compact" id="sort-select">
-                            <option value="newest">Newest</option>
-                            <option value="popular">Popular</option>
-                            <option value="price-low">Price ↑</option>
-                            <option value="price-high">Price ↓</option>
-                        </select>
+
+                <div class="orbit-item" data-type="model" role="button" tabindex="0" aria-label="Model filter">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <div class="orbit-dropdown">
+                        <button class="m-btn" type="button" data-model="zebra">Zebra</button>
+                        <button class="m-btn" type="button" data-model="blackout">Blackout</button>
                     </div>
                 </div>
-                <button type="button" class="clear-filters-btn" id="clear-filters">Clear</button>
             </div>
         </div>
 
@@ -1249,18 +1636,14 @@
             }
             return `${origin}/api/collections`;
         })();
-        const sortSelect = document.getElementById('sort-select');
-        const typeFilter = document.getElementById('type-filter');
-        const colorFilter = document.getElementById('color-filter');
-        const priceFilter = document.getElementById('price-filter');
-        const clearFiltersBtn = document.getElementById('clear-filters');
+        const orbitBtn = document.getElementById('orbitBtn');
+        const orbitItems = document.getElementById('orbitItems');
+        const priceRangeInput = document.getElementById('p-range');
+        const priceValueLabel = document.getElementById('p-val');
+        const orbitDots = Array.from(document.querySelectorAll('.c-dot'));
+        const orbitModelButtons = Array.from(document.querySelectorAll('.m-btn'));
         const grid = document.querySelector('.products-grid');
-        const sortFilterBar = document.querySelector('.sort-filter');
-        const priceMinInput = document.getElementById('price-min');
-        const priceMaxInput = document.getElementById('price-max');
-        const priceMinLabel = document.getElementById('price-min-label');
-        const priceMaxLabel = document.getElementById('price-max-label');
-        const priceRangeFill = document.getElementById('price-range-fill');
+        const visibleCount = document.getElementById('visible-count');
         const modal = document.getElementById('quick-view-modal');
         const closeModal = document.querySelector('.close-modal');
         const modalPrimaryBtn = modal.querySelector('.btn-primary');
@@ -1276,12 +1659,11 @@
         const USD_RATE = 42000;
         let activeModalKey = '';
         let toastTimer = null;
-        const currentFilters = {
-            type: 'all',
-            color: 'all',
-            priceMin: 50,
-            priceMax: 300,
-            sort: sortSelect?.value || 'newest'
+        let hasUserInitiatedScroll = false;
+        const orbitFilters = {
+            maxPrice: 1000,
+            color: '',
+            model: ''
         };
         const formatPrice = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
             minimumFractionDigits: 2,
@@ -1289,54 +1671,41 @@
         })}`;
         const getSavedState = () => (window.LuxeState?.getSnapshot ? window.LuxeState.getSnapshot() : { cart: [], wishlist: [], lastOrder: null });
         const getSavedSet = (key) => new Set(Array.isArray(getSavedState()[key]) ? getSavedState()[key] : []);
-        const getUsdPrice = (item) => Number(item?.price || 0) / USD_RATE;
-        const getColorFamily = (item) => {
-            const source = `${item?.category || ''} ${item?.label || ''} ${item?.tags || ''} ${item?.name || ''}`.toLowerCase();
-            if (source.includes('gray') || source.includes('charcoal')) return 'gray';
-            if (source.includes('cream') || source.includes('ivory')) return 'cream';
-            if (source.includes('beige') || source.includes('taupe')) return 'beige';
-            return 'all';
-        };
-        const updatePriceRangeVisual = () => {
-            if (!priceMinInput || !priceMaxInput || !priceRangeFill) return;
-            const min = Number(priceMinInput.value || currentFilters.priceMin || 50);
-            const max = Number(priceMaxInput.value || currentFilters.priceMax || 300);
-            const left = Math.min(min, max);
-            const right = Math.max(min, max);
-            const minPercent = ((left - Number(priceMinInput.min || 0)) / (Number(priceMinInput.max || 300) - Number(priceMinInput.min || 0))) * 100;
-            const maxPercent = ((right - Number(priceMaxInput.min || 0)) / (Number(priceMaxInput.max || 300) - Number(priceMaxInput.min || 0))) * 100;
-            priceRangeFill.style.left = `${Math.max(0, Math.min(100, minPercent))}%`;
-            priceRangeFill.style.right = `${Math.max(0, Math.min(100, 100 - maxPercent))}%`;
-            if (priceMinLabel) priceMinLabel.textContent = `$${left}`;
-            if (priceMaxLabel) priceMaxLabel.textContent = `$${right}`;
+        const getItemUsdPrice = (item) => Number(item?.price || 0) / USD_RATE;
+        window.addEventListener('wheel', () => {
+            hasUserInitiatedScroll = true;
+        }, { passive: true, once: true });
+        window.addEventListener('touchstart', () => {
+            hasUserInitiatedScroll = true;
+        }, { passive: true, once: true });
+        window.addEventListener('keydown', (event) => {
+            const activatingKeys = ['ArrowDown', 'PageDown', 'End', 'Space'];
+            if (activatingKeys.includes(event.code) || activatingKeys.includes(event.key)) {
+                hasUserInitiatedScroll = true;
+            }
+        }, { once: true });
+        const updateVisibleCount = (count) => {
+            if (visibleCount) visibleCount.textContent = String(count);
         };
 
-        const setActiveTypePill = (value) => {
-            document.querySelectorAll('[data-type-pill]').forEach((btn) => {
-                btn.classList.toggle('is-active', btn.dataset.typePill === value);
-            });
-        };
-
-        const setActiveColorSwatch = (value) => {
-            document.querySelectorAll('[data-color-swatch]').forEach((btn) => {
-                btn.classList.toggle('is-active', btn.dataset.colorSwatch === value);
-            });
-        };
-
-        const matchesCurrentFilters = (item) => {
+        const matchesFilter = (item) => {
             if (!item || item.status === 'Hidden') return false;
             const source = `${item?.name || ''} ${item?.category || ''} ${item?.tags || ''} ${item?.label || ''}`.toLowerCase();
+            const usdPrice = getItemUsdPrice(item);
+            if (usdPrice > Number(orbitFilters.maxPrice || 1000)) return false;
 
-            if (currentFilters.type === 'blackout' && !source.includes('blackout')) return false;
-            if (currentFilters.type === 'sheer' && !(source.includes('sheer') || source.includes('light filtering'))) return false;
-            if (currentFilters.type === 'luxury' && !(getUsdPrice(item) >= 75 || source.includes('designer') || source.includes('best seller'))) return false;
-            if (currentFilters.type === 'zebra' && !source.includes('zebra')) return false;
+            if (orbitFilters.model) {
+                if (orbitFilters.model === 'zebra' && !source.includes('zebra')) return false;
+                if (orbitFilters.model === 'blackout' && !source.includes('blackout')) return false;
+            }
 
-            const colorFamily = getColorFamily(item);
-            if (currentFilters.color !== 'all' && currentFilters.color !== colorFamily) return false;
+            if (orbitFilters.color) {
+                const c = orbitFilters.color;
+                if (c === 'black' && !(source.includes('black') || source.includes('charcoal'))) return false;
+                if (c === 'gold' && !(source.includes('gold') || source.includes('amber') || source.includes('luxury'))) return false;
+                if (c === 'white' && !(source.includes('white') || source.includes('ivory') || source.includes('cream'))) return false;
+            }
 
-            const usd = getUsdPrice(item);
-            if (usd < currentFilters.priceMin || usd > currentFilters.priceMax) return false;
             return true;
         };
         const syncHeaderCart = () => {
@@ -1464,7 +1833,7 @@
             }).join('');
             applyMobileProductLayout();
             updateActionState();
-            updatePriceRangeVisual();
+            updateVisibleCount(visible.length);
         };
 
         const applyMobileProductLayout = () => {
@@ -1523,18 +1892,8 @@
         };
 
         const applyFiltersAndSort = () => {
-            const items = [...allItems].filter(matchesCurrentFilters);
-
-            if (currentFilters.sort === 'newest') {
-                items.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-            } else if (currentFilters.sort === 'popular') {
-                items.sort((a, b) => (b.popular || 0) - (a.popular || 0));
-            } else if (currentFilters.sort === 'price-low') {
-                items.sort((a, b) => (a.price || 0) - (b.price || 0));
-            } else if (currentFilters.sort === 'price-high') {
-                items.sort((a, b) => (b.price || 0) - (a.price || 0));
-            }
-
+            const items = [...allItems].filter(matchesFilter);
+            items.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             renderCards(items);
         };
 
@@ -1557,66 +1916,66 @@
             }
         };
 
-        const syncFiltersFromControls = () => {
-            currentFilters.color = colorFilter?.querySelector('.color-swatch.is-active')?.dataset.colorSwatch || 'all';
-            currentFilters.sort = sortSelect?.value || 'newest';
-            currentFilters.priceMin = Math.min(
-                Number(priceMinInput?.value || 50),
-                Number(priceMaxInput?.value || 300)
-            );
-            currentFilters.priceMax = Math.max(
-                Number(priceMinInput?.value || 50),
-                Number(priceMaxInput?.value || 300)
-            );
+        const closeOrbitDropdowns = () => {
+            document.querySelectorAll('.orbit-item.is-open').forEach((item) => item.classList.remove('is-open'));
         };
 
-        const renderWithFilters = () => {
-            syncFiltersFromControls();
+        orbitBtn?.addEventListener('click', () => {
+            orbitBtn.classList.toggle('active');
+            if (!orbitBtn.classList.contains('active')) {
+                closeOrbitDropdowns();
+            }
+        });
+
+        orbitItems?.addEventListener('click', (event) => {
+            const item = event.target.closest('.orbit-item');
+            if (!item) return;
+            const isOpen = item.classList.contains('is-open');
+            closeOrbitDropdowns();
+            if (!isOpen) item.classList.add('is-open');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!orbitItems || !orbitBtn) return;
+            const inside = orbitItems.contains(event.target) || orbitBtn.contains(event.target);
+            if (!inside) closeOrbitDropdowns();
+        });
+
+        priceRangeInput?.addEventListener('input', (event) => {
+            const value = Number(event.target.value || 1000);
+            orbitFilters.maxPrice = value;
+            if (priceValueLabel) priceValueLabel.textContent = `$${value}`;
             refreshResults();
-        };
+        });
 
-        sortSelect?.addEventListener('change', renderWithFilters);
-        priceMinInput?.addEventListener('input', () => {
-            if (priceMaxInput && Number(priceMinInput.value) > Number(priceMaxInput.value)) {
-                priceMinInput.value = priceMaxInput.value;
-            }
-            updatePriceRangeVisual();
-            renderWithFilters();
+        orbitDots.forEach((dot) => {
+            dot.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const color = dot.dataset.color || '';
+                orbitDots.forEach((d) => d.classList.remove('is-active'));
+                if (orbitFilters.color === color) {
+                    orbitFilters.color = '';
+                } else {
+                    orbitFilters.color = color;
+                    dot.classList.add('is-active');
+                }
+                refreshResults();
+            });
         });
-        priceMaxInput?.addEventListener('input', () => {
-            if (priceMinInput && Number(priceMaxInput.value) < Number(priceMinInput.value)) {
-                priceMaxInput.value = priceMinInput.value;
-            }
-            updatePriceRangeVisual();
-            renderWithFilters();
-        });
-        typeFilter?.addEventListener('click', (event) => {
-            const button = event.target.closest('[data-type-pill]');
-            if (!button) return;
-            currentFilters.type = button.dataset.typePill || 'all';
-            setActiveTypePill(currentFilters.type);
-            renderWithFilters();
-        });
-        colorFilter?.addEventListener('click', (event) => {
-            const button = event.target.closest('[data-color-swatch]');
-            if (!button) return;
-            const value = button.dataset.colorSwatch || 'all';
-            currentFilters.color = value;
-            setActiveColorSwatch(value);
-            renderWithFilters();
-        });
-        clearFiltersBtn?.addEventListener('click', () => {
-            currentFilters.type = 'all';
-            currentFilters.color = 'all';
-            currentFilters.priceMin = 50;
-            currentFilters.priceMax = 300;
-            if (sortSelect) sortSelect.value = 'newest';
-            if (priceMinInput) priceMinInput.value = '50';
-            if (priceMaxInput) priceMaxInput.value = '300';
-            setActiveTypePill('all');
-            setActiveColorSwatch('all');
-            updatePriceRangeVisual();
-            renderWithFilters();
+
+        orbitModelButtons.forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const model = btn.dataset.model || '';
+                orbitModelButtons.forEach((b) => b.classList.remove('is-active'));
+                if (orbitFilters.model === model) {
+                    orbitFilters.model = '';
+                } else {
+                    orbitFilters.model = model;
+                    btn.classList.add('is-active');
+                }
+                refreshResults();
+            });
         });
 
         grid.addEventListener('click', (event) => {
@@ -1699,7 +2058,6 @@
 
         window.addEventListener('scroll', () => {
             header.classList.toggle('scrolled', window.scrollY > 50);
-            sortFilterBar?.classList.toggle('is-scrolled', window.scrollY > 120);
         });
 
         window.addEventListener('pageshow', () => {

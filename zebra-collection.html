@@ -137,6 +137,43 @@
             animation: fadeInUp 0.8s ease forwards 0.35s;
         }
 
+        .sort-filter.is-scrolled {
+            padding: 10px 14px;
+            border-radius: 20px;
+            gap: 12px;
+            top: 72px;
+            box-shadow: 0 14px 28px rgba(27, 22, 14, 0.12);
+        }
+
+        .sort-filter.is-scrolled .section-kicker {
+            margin-bottom: 3px;
+            font-size: 0.72rem;
+        }
+
+        .sort-filter.is-scrolled .section-title {
+            font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+        }
+
+        .sort-filter.is-scrolled .filter-group label {
+            margin-bottom: 6px;
+            font-size: 0.72rem;
+        }
+
+        .sort-filter.is-scrolled .filter-pill {
+            padding: 9px 13px;
+            font-size: 0.84rem;
+        }
+
+        .sort-filter.is-scrolled .sort-mini {
+            min-height: 44px;
+            padding: 10px 12px;
+        }
+
+        .sort-filter.is-scrolled .clear-filters-btn {
+            min-height: 44px;
+            padding: 10px 14px;
+        }
+
         .filters-bar {
             display: flex;
             flex-wrap: wrap;
@@ -1218,6 +1255,7 @@
         const priceFilter = document.getElementById('price-filter');
         const clearFiltersBtn = document.getElementById('clear-filters');
         const grid = document.querySelector('.products-grid');
+        const sortFilterBar = document.querySelector('.sort-filter');
         const priceMinInput = document.getElementById('price-min');
         const priceMaxInput = document.getElementById('price-max');
         const priceMinLabel = document.getElementById('price-min-label');
@@ -1661,6 +1699,7 @@
 
         window.addEventListener('scroll', () => {
             header.classList.toggle('scrolled', window.scrollY > 50);
+            sortFilterBar?.classList.toggle('is-scrolled', window.scrollY > 120);
         });
 
         window.addEventListener('pageshow', () => {

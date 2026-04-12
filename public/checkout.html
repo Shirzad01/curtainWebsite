@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776033060815">
-    <link rel="stylesheet" href="saved-pages.css?v=1776033060815">
+    <link rel="stylesheet" href="style.css?v=1776033388701">
+    <link rel="stylesheet" href="saved-pages.css?v=1776033388701">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -219,26 +219,26 @@
             grid-template-columns: 74px minmax(0, 1fr);
             gap: 12px;
             align-items: center;
-            padding: 12px;
-            border-radius: 20px;
+            padding: 10px;
+            border-radius: 18px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .checkout-summary-item img {
-            width: 74px;
-            height: 74px;
-            border-radius: 16px;
+            width: 66px;
+            height: 66px;
+            border-radius: 14px;
             object-fit: cover;
         }
 
         .checkout-summary-item h4 {
             margin: 0 0 5px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .checkout-summary-item p {
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             line-height: 1.6;
         }
 
@@ -253,15 +253,15 @@
             display: inline-flex;
             flex-direction: column;
             gap: 4px;
-            padding: 9px 12px;
-            border-radius: 14px;
+            padding: 8px 10px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            min-width: 132px;
+            min-width: 120px;
         }
 
         .checkout-summary-pill span {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.62);
@@ -269,7 +269,7 @@
         }
 
         .checkout-summary-pill strong {
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             color: #fff;
         }
 
@@ -385,8 +385,8 @@
 
 <body data-site-page="checkout">
     <div data-site-header></div>
-    <script src="site-state.js?v=1776033060815"></script>
-    <script src="site-header.js?v=1776033060815"></script>
+    <script src="site-state.js?v=1776033388701"></script>
+    <script src="site-header.js?v=1776033388701"></script>
 
     <main class="checkout-shell">
         <section class="checkout-hero">
@@ -550,7 +550,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1776033060815"></script>
+    <script src="catalog-data.js?v=1776033388701"></script>
     <script>
         (function () {
             const catalog = Array.isArray(window.LUXE_CATALOG) ? window.LUXE_CATALOG : [];
@@ -569,7 +569,11 @@
             const widthInput = document.getElementById('checkout-width');
             const heightInput = document.getElementById('checkout-height');
 
-            const formatUsd = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
+            const formatBaseRate = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+            const formatMoney = (value) => `$${Number(value || 0).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             })}`;
@@ -665,7 +669,7 @@
                 syncHeaderCounts(state);
 
                 checkoutCount.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
-                checkoutTotal.textContent = items.length ? formatUsd(total) : '$0.00';
+                checkoutTotal.textContent = items.length ? formatMoney(total) : '$0.00';
 
                 if (!items.length) {
                     checkoutItems.innerHTML = `
@@ -703,11 +707,11 @@
                                 </div>
                                 <div class="checkout-summary-pill">
                                     <span>Estimated</span>
-                                    <strong>${formatUsd(resolvedEstimated)}</strong>
+                                    <strong>${formatMoney(resolvedEstimated)}</strong>
                                 </div>
                             </div>
                             <div style="margin-top:6px; font-size:0.85rem; color: rgba(255,255,255,0.72);">
-                                Base rate: ${formatUsd(item.price)} / m²
+                                Base rate: ${formatBaseRate(item.price)} / m²
                             </div>
                         </div>
                     </article>

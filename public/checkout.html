@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776030215169">
-    <link rel="stylesheet" href="saved-pages.css?v=1776030215169">
+    <link rel="stylesheet" href="style.css?v=1776030530385">
+    <link rel="stylesheet" href="saved-pages.css?v=1776030530385">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -354,8 +354,8 @@
 
 <body data-site-page="checkout">
     <div data-site-header></div>
-    <script src="site-state.js?v=1776030215169"></script>
-    <script src="site-header.js?v=1776030215169"></script>
+    <script src="site-state.js?v=1776030530385"></script>
+    <script src="site-header.js?v=1776030530385"></script>
 
     <main class="checkout-shell">
         <section class="checkout-hero">
@@ -519,7 +519,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1776030215169"></script>
+    <script src="catalog-data.js?v=1776030530385"></script>
     <script>
         (function () {
             const catalog = Array.isArray(window.LUXE_CATALOG) ? window.LUXE_CATALOG : [];
@@ -613,7 +613,7 @@
                     if (item.estimatedPrice && item.width && item.height) return sum + Number(item.estimatedPrice || 0);
                     return sum + calculateItemTotal(item, width, height);
                 }, 0);
-                const sizeLabel = hasMeasurements ? `${width} cm × ${height} cm` : 'Enter size above';
+                const sizeLabel = hasMeasurements ? `${width} cm x ${height} cm` : 'Enter size above';
 
                 syncHeaderCounts(state);
 

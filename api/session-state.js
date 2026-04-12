@@ -76,6 +76,7 @@ module.exports = async (req, res) => {
 
       const removeItem = (set) => {
         if (key) set.delete(key);
+        if (item?.key) set.delete(item.key);
       };
 
       switch (action) {

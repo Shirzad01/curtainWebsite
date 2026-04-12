@@ -613,7 +613,7 @@
                     if (item.estimatedPrice && item.width && item.height) return sum + Number(item.estimatedPrice || 0);
                     return sum + calculateItemTotal(item, width, height);
                 }, 0);
-                const sizeLabel = hasMeasurements ? `${width} cm × ${height} cm` : 'Enter size above';
+                const sizeLabel = hasMeasurements ? `${width} cm x ${height} cm` : 'Enter size above';
 
                 syncHeaderCounts(state);
 

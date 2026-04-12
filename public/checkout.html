@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776025312442">
-    <link rel="stylesheet" href="saved-pages.css?v=1776025312442">
+    <link rel="stylesheet" href="style.css?v=1776026343299">
+    <link rel="stylesheet" href="saved-pages.css?v=1776026343299">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -354,8 +354,8 @@
 
 <body data-site-page="checkout">
     <div data-site-header></div>
-    <script src="site-state.js?v=1776025312442"></script>
-    <script src="site-header.js?v=1776025312442"></script>
+    <script src="site-state.js?v=1776026343299"></script>
+    <script src="site-header.js?v=1776026343299"></script>
 
     <main class="checkout-shell">
         <section class="checkout-hero">
@@ -451,7 +451,7 @@
                     <strong id="checkout-count">0 items</strong>
                 </div>
                 <div class="checkout-summary-row">
-                    <span>Base subtotal</span>
+                    <span>Estimated subtotal</span>
                     <strong id="checkout-total" class="checkout-summary-total">$0.00</strong>
                 </div>
 
@@ -519,7 +519,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1776025312442"></script>
+    <script src="catalog-data.js?v=1776026343299"></script>
     <script>
         (function () {
             const catalog = Array.isArray(window.LUXE_CATALOG) ? window.LUXE_CATALOG : [];
@@ -535,11 +535,24 @@
             const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
             const headerCartCount = document.querySelector('[data-cart-count]');
             const headerWishlistCount = document.querySelector('[data-wishlist-count]');
+            const widthInput = document.getElementById('checkout-width');
+            const heightInput = document.getElementById('checkout-height');
 
             const formatUsd = (value) => `$${(Number(value || 0) / USD_RATE).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             })}`;
+            const calculateItemTotal = (item, widthCm, heightCm) => {
+                const widthM = Math.max(0, Number(widthCm || 0) / 100);
+                const heightM = Math.max(0, Number(heightCm || 0) / 100);
+                const baseRate = Number(item?.price || 0) / USD_RATE;
+                if (!widthM || !heightM || !baseRate) return 0;
+                return baseRate * widthM * heightM;
+            };
+            const getMeasurementInputs = () => ({
+                width: Number(widthInput?.value || 0),
+                height: Number(heightInput?.value || 0)
+            });
 
             const setStatus = (message, kind = '') => {
                 checkoutStatus.textContent = message || '';
@@ -585,12 +598,14 @@
             const renderSummary = async () => {
                 const state = await getState();
                 const items = getItems(state);
-                const total = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+                const { width, height } = getMeasurementInputs();
+                const hasMeasurements = width > 0 && height > 0;
+                const total = items.reduce((sum, item) => sum + calculateItemTotal(item, width, height), 0);
 
                 syncHeaderCounts(state);
 
                 checkoutCount.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
-                checkoutTotal.textContent = formatUsd(total);
+                checkoutTotal.textContent = hasMeasurements ? formatUsd(total) : '$0.00';
 
                 if (!items.length) {
                     checkoutItems.innerHTML = `
@@ -616,12 +631,19 @@
                             <h4>${item.name}</h4>
                             <p>${item.category}</p>
                             <div class="checkout-summary-meta">
-                                <span>${formatUsd(item.price)}</span>
+                                <span>Base ${formatUsd(item.price)} / m²</span>
+                                <span>${hasMeasurements ? formatUsd(calculateItemTotal(item, width, height)) : '$0.00'}</span>
                             </div>
                         </div>
                     </article>
                 `).join('');
             };
+
+            [widthInput, heightInput].forEach((input) => {
+                input?.addEventListener('input', () => {
+                    renderSummary();
+                });
+            });
 
             checkoutForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -653,7 +675,12 @@
                     return;
                 }
 
-                const subtotal = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+                if (!width || !height) {
+                    setStatus('Please fill in the measurement fields before continuing.', 'is-error');
+                    return;
+                }
+
+                const subtotal = items.reduce((sum, item) => sum + calculateItemTotal(item, width, height), 0);
                 const shippingFee = 0;
                 const total = subtotal + shippingFee;
                 const orderPayload = {
@@ -675,7 +702,8 @@
                         name: item.name,
                         category: item.category,
                         image: item.image,
-                        price: Number(item.price || 0)
+                        basePrice: Number(item.price || 0),
+                        estimatedPrice: calculateItemTotal(item, width, height)
                     }))
                 };
 

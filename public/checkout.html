@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776033388701">
-    <link rel="stylesheet" href="saved-pages.css?v=1776033388701">
+    <link rel="stylesheet" href="style.css?v=1776033662566">
+    <link rel="stylesheet" href="saved-pages.css?v=1776033662566">
     <style>
         :root {
             --checkout-bg: #f6f1e8;
@@ -245,23 +245,23 @@
         .checkout-summary-meta-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             margin-top: 8px;
         }
 
         .checkout-summary-pill {
             display: inline-flex;
             flex-direction: column;
-            gap: 4px;
-            padding: 8px 10px;
-            border-radius: 12px;
+            gap: 3px;
+            padding: 6px 8px;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            min-width: 120px;
+            min-width: 96px;
         }
 
         .checkout-summary-pill span {
-            font-size: 0.68rem;
+            font-size: 0.62rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.62);
@@ -269,7 +269,7 @@
         }
 
         .checkout-summary-pill strong {
-            font-size: 0.88rem;
+            font-size: 0.78rem;
             color: #fff;
         }
 
@@ -385,8 +385,8 @@
 
 <body data-site-page="checkout">
     <div data-site-header></div>
-    <script src="site-state.js?v=1776033388701"></script>
-    <script src="site-header.js?v=1776033388701"></script>
+    <script src="site-state.js?v=1776033662566"></script>
+    <script src="site-header.js?v=1776033662566"></script>
 
     <main class="checkout-shell">
         <section class="checkout-hero">
@@ -440,16 +440,6 @@
                                 <option>Bank transfer</option>
                                 <option>Card payment on confirmation</option>
                             </select>
-                        </label>
-
-                        <label class="checkout-field">
-                            <span>Width (cm)</span>
-                            <input id="checkout-width" name="width" type="number" min="1" step="1" placeholder="100">
-                        </label>
-
-                        <label class="checkout-field">
-                            <span>Height (cm)</span>
-                            <input id="checkout-height" name="height" type="number" min="1" step="1" placeholder="100">
                         </label>
 
                         <label class="checkout-field full">
@@ -550,7 +540,7 @@
         </div>
     </footer>
 
-    <script src="catalog-data.js?v=1776033388701"></script>
+    <script src="catalog-data.js?v=1776033662566"></script>
     <script>
         (function () {
             const catalog = Array.isArray(window.LUXE_CATALOG) ? window.LUXE_CATALOG : [];

@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776033662566">
+    <link rel="stylesheet" href="style.css?v=1776034673258">
     <style>
         .quick-view-measurements {
             display: grid;
@@ -78,8 +78,8 @@
 <body data-site-page="home">
 
     <div data-site-header></div>
-    <script src="site-state.js?v=1776033662566"></script>
-    <script src="site-header.js?v=1776033662566"></script>
+    <script src="site-state.js?v=1776034673258"></script>
+    <script src="site-header.js?v=1776034673258"></script>
 
     <section class="hero-premium" id="home">
         <div class="hero-inner">
@@ -886,11 +886,22 @@
         const showActionToast = (message) => {
             if (!actionToast) return;
             actionToast.textContent = message;
+            actionToast.classList.remove('is-error');
             actionToast.classList.add('is-visible');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
                 actionToast.classList.remove('is-visible');
             }, 2200);
+        };
+
+        const showErrorToast = (message) => {
+            if (!actionToast) return;
+            actionToast.textContent = message;
+            actionToast.classList.add('is-visible', 'is-error');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                actionToast.classList.remove('is-visible', 'is-error');
+            }, 2600);
         };
 
         const closeSavedPanels = () => {
@@ -1233,7 +1244,7 @@
             const widthValue = Number(modalWidth?.value || 0);
             const heightValue = Number(modalHeight?.value || 0);
             if (!widthValue || !heightValue) {
-                showActionToast('Please fill in the measurement fields first.');
+                showErrorToast('Please enter width and height first.');
                 return;
             }
             if (!activeProductKey) return;

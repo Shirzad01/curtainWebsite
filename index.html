@@ -886,11 +886,22 @@
         const showActionToast = (message) => {
             if (!actionToast) return;
             actionToast.textContent = message;
+            actionToast.classList.remove('is-error');
             actionToast.classList.add('is-visible');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
                 actionToast.classList.remove('is-visible');
             }, 2200);
+        };
+
+        const showErrorToast = (message) => {
+            if (!actionToast) return;
+            actionToast.textContent = message;
+            actionToast.classList.add('is-visible', 'is-error');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                actionToast.classList.remove('is-visible', 'is-error');
+            }, 2600);
         };
 
         const closeSavedPanels = () => {
@@ -1233,7 +1244,7 @@
             const widthValue = Number(modalWidth?.value || 0);
             const heightValue = Number(modalHeight?.value || 0);
             if (!widthValue || !heightValue) {
-                showActionToast('Please fill in the measurement fields first.');
+                showErrorToast('Please enter width and height first.');
                 return;
             }
             if (!activeProductKey) return;

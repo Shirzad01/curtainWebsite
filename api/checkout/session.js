@@ -18,7 +18,13 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const payload = await readJson(req);
+  let payload = {};
+  try {
+    payload = await readJson(req);
+  } catch (error) {
+    sendJson(res, 400, { error: 'Invalid JSON payload' });
+    return;
+  }
   const now = new Date().toISOString();
   const customerName = String(payload.customerName || '').trim();
   const email = String(payload.email || '').trim();
@@ -60,32 +66,49 @@ module.exports = async (req, res) => {
 
   const stripe = getStripe();
   const baseUrl = getBaseUrl(req);
-  const lineItems = items.map((item) => ({
-    quantity: 1,
-    price_data: {
-      currency: 'usd',
-      product_data: {
-        name: String(item.name || 'Curtain item'),
-        images: item.image ? [String(item.image)] : undefined
-      },
-      unit_amount: Math.max(50, Math.round((Number(item.price || 0) / USD_RATE) * 100))
-    }
-  }));
+  const resolveUsdAmount = (item) => {
+    const estimatedUsd = Number(item?.estimatedPrice || 0);
+    if (Number.isFinite(estimatedUsd) && estimatedUsd > 0) return estimatedUsd;
+    const basePriceIrr = Number(item?.basePrice || item?.price || 0);
+    const baseUsd = basePriceIrr / USD_RATE;
+    return baseUsd > 0 ? baseUsd : 0.5;
+  };
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    customer_email: email,
-    line_items: lineItems,
-    metadata: {
-      orderId: order.id,
-      customerName,
-      phone,
-      city,
-      paymentMethod
-    },
-    success_url: `${baseUrl}/order-success.html?order=${encodeURIComponent(order.id)}&payment=success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${baseUrl}/checkout.html?payment=cancelled&order=${encodeURIComponent(order.id)}`
+  const lineItems = items.map((item) => {
+    const unitUsd = resolveUsdAmount(item);
+    return {
+      quantity: 1,
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: String(item.name || 'Curtain item'),
+          images: item.image ? [String(item.image)] : undefined
+        },
+        unit_amount: Math.max(50, Math.round(unitUsd * 100))
+      }
+    };
   });
+
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      customer_email: email,
+      line_items: lineItems,
+      metadata: {
+        orderId: order.id,
+        customerName,
+        phone,
+        city,
+        paymentMethod
+      },
+      success_url: `${baseUrl}/order-success.html?order=${encodeURIComponent(order.id)}&payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/checkout.html?payment=cancelled&order=${encodeURIComponent(order.id)}`
+    });
+  } catch (error) {
+    sendJson(res, 500, { error: error?.message || 'Stripe checkout session failed' });
+    return;
+  }
 
   sendJson(res, 200, {
     url: session.url,

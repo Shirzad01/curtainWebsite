@@ -17,7 +17,13 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const payload = await readJson(req);
+    let payload = {};
+    try {
+      payload = await readJson(req);
+    } catch (error) {
+      sendJson(res, 400, { error: 'Invalid JSON payload' });
+      return;
+    }
     const now = new Date().toISOString();
     const customerName = String(payload.customerName || '').trim();
     const email = String(payload.email || '').trim();

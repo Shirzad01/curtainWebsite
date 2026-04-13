@@ -1288,11 +1288,78 @@
             overflow-y: auto;
         }
 
+        .quick-view-measurements {
+            display: grid;
+            gap: 12px;
+            margin: 16px 0 18px;
+            padding: 16px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 234, 0.94));
+            border: 1px solid rgba(201, 169, 98, 0.18);
+            box-shadow: 0 14px 28px rgba(17, 15, 10, 0.06);
+        }
+
+        .quick-view-measurements h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #463728;
+        }
+
+        .quick-view-measurement-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .quick-view-measurements label {
+            display: grid;
+            gap: 6px;
+            padding: 12px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(201, 169, 98, 0.18);
+            color: #6d5b3f;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .quick-view-measurements input {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(17, 17, 17, 0.1);
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.96);
+            font-size: 0.98rem;
+            color: #222;
+        }
+
+        .quick-view-measurements small {
+            font-size: 0.7rem;
+            line-height: 1.35;
+            color: #7e7263;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .quick-view-estimate {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(201, 169, 98, 0.12);
+            color: #6a4f16;
+            font-weight: 800;
+        }
+
         .collection-toast {
             position: fixed;
-            right: 22px;
+            left: 50%;
             bottom: 22px;
-            z-index: 6000;
+            z-index: 99999;
             padding: 13px 16px;
             border-radius: 16px;
             background: rgba(17, 17, 17, 0.96);
@@ -1300,14 +1367,14 @@
             font-size: 0.94rem;
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
             opacity: 0;
-            transform: translateY(14px);
+            transform: translateX(-50%) translateY(14px);
             pointer-events: none;
             transition: opacity 0.24s ease, transform 0.24s ease;
         }
 
         .collection-toast.is-visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
         }
 
         .collection-toast::before {
@@ -1812,10 +1879,12 @@
                             <label>
                                 Width (cm)
                                 <input id="modal-width" type="number" min="1" step="1" placeholder="Enter width">
+                                <small>Measure across the window frame</small>
                             </label>
                             <label>
                                 Height (cm)
                                 <input id="modal-height" type="number" min="1" step="1" placeholder="Enter height">
+                                <small>Measure from top rail to desired drop</small>
                             </label>
                         </div>
                         <div class="quick-view-estimate">
@@ -1823,8 +1892,8 @@
                             <strong id="modal-estimate-total">$0.00</strong>
                         </div>
                     </div>
-                    <button class="btn-primary" type="button">Add to Cart</button>
-                    <button class="btn-secondary" type="button">Contact for Custom</button>
+                    <button id="modal-primary-btn" class="btn-primary" type="button">Add to Cart</button>
+                    <button id="modal-secondary-btn" class="btn-secondary" type="button">Contact for Custom</button>
                 </div>
             </div>
         </div>
@@ -1912,8 +1981,8 @@
         const priceRangeFill = document.getElementById('price-range-fill');
         const modal = document.getElementById('quick-view-modal');
         const closeModal = document.querySelector('.close-modal');
-        const modalPrimaryBtn = modal.querySelector('.btn-primary');
-        const modalSecondaryBtn = modal.querySelector('.btn-secondary');
+        const modalPrimaryBtn = document.getElementById('modal-primary-btn');
+        const modalSecondaryBtn = document.getElementById('modal-secondary-btn');
         const modalWidth = document.getElementById('modal-width');
         const modalHeight = document.getElementById('modal-height');
         const modalEstimate = document.getElementById('modal-estimate-total');
@@ -2071,6 +2140,7 @@
                 document.body.appendChild(toast);
             }
             toast.textContent = message;
+            toast.style.display = 'block';
             toast.classList.add('is-visible');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
@@ -2471,14 +2541,9 @@
 
         modalSecondaryBtn.addEventListener('click', () => {
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
-            (async () => {
-                const added = await addToSavedList('wishlist', activeModalKey);
-                showToast(added ? 'Added to wishlist' : 'Already in wishlist');
-                updateActionState();
-                const nextKey = activeModalKey;
-                hideModal();
-                setTimeout(() => goToSavedPage('wishlist', nextKey), 180);
-            })();
+            window.location.href = 'index.html#contact';
+            hideModal();
+            showToast('Opening contact form for custom order');
         });
 
         modalWidth?.addEventListener('input', updateModalEstimate);

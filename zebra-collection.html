@@ -1806,8 +1806,25 @@
                     <p id="modal-desc"></p>
                     <span id="modal-price"></span>
                     <div id="modal-rating"></div>
-                    <button class="btn-primary">Add to Cart</button>
-                    <button class="btn-secondary">Contact for Custom</button>
+                    <div class="quick-view-measurements">
+                        <h4>Enter size</h4>
+                        <div class="quick-view-measurement-grid">
+                            <label>
+                                Width (cm)
+                                <input id="modal-width" type="number" min="1" step="1" placeholder="Enter width">
+                            </label>
+                            <label>
+                                Height (cm)
+                                <input id="modal-height" type="number" min="1" step="1" placeholder="Enter height">
+                            </label>
+                        </div>
+                        <div class="quick-view-estimate">
+                            <span>Estimated total</span>
+                            <strong id="modal-estimate-total">$0.00</strong>
+                        </div>
+                    </div>
+                    <button class="btn-primary" type="button">Add to Cart</button>
+                    <button class="btn-secondary" type="button">Contact for Custom</button>
                 </div>
             </div>
         </div>
@@ -1897,6 +1914,9 @@
         const closeModal = document.querySelector('.close-modal');
         const modalPrimaryBtn = modal.querySelector('.btn-primary');
         const modalSecondaryBtn = modal.querySelector('.btn-secondary');
+        const modalWidth = document.getElementById('modal-width');
+        const modalHeight = document.getElementById('modal-height');
+        const modalEstimate = document.getElementById('modal-estimate-total');
         const header = document.querySelector('header');
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
@@ -1927,8 +1947,20 @@
             maximumFractionDigits: 2
         })}`;
         const getSavedState = () => (window.LuxeState?.getSnapshot ? window.LuxeState.getSnapshot() : { cart: [], wishlist: [], lastOrder: null });
-        const getSavedSet = (key) => new Set(Array.isArray(getSavedState()[key]) ? getSavedState()[key] : []);
+        const getSavedSet = (key) => new Set(
+            Array.isArray(getSavedState()[key])
+                ? getSavedState()[key]
+                    .map((entry) => (entry && typeof entry === 'object' ? entry.key : entry))
+                    .filter(Boolean)
+                : []
+        );
         const getUsdPrice = (item) => Number(item?.price || 0) / USD_RATE;
+        const calculateEstimate = (baseRate, widthCm, heightCm) => {
+            const widthM = Math.max(0, Number(widthCm || 0) / 100);
+            const heightM = Math.max(0, Number(heightCm || 0) / 100);
+            if (!baseRate || !widthM || !heightM) return 0;
+            return baseRate * widthM * heightM;
+        };
         const getColorFamily = (item) => {
             const source = `${item?.category || ''} ${item?.label || ''} ${item?.tags || ''} ${item?.name || ''}`.toLowerCase();
             if (source.includes('black') || source.includes('charcoal') || source.includes('gray')) return 'black';
@@ -2045,11 +2077,12 @@
                 toast.classList.remove('is-visible');
             }, 2200);
         };
-        const addToSavedList = async (storageKey, itemKey) => {
+        const addToSavedList = async (storageKey, item) => {
+            const itemKey = typeof item === 'object' ? item?.key : item;
             const values = storageKey === 'cart' ? getSavedSet('cart') : getSavedSet('wishlist');
             const alreadyExists = values.has(itemKey);
             if (window.LuxeState?.[storageKey === 'cart' ? 'addToCart' : 'addToWishlist']) {
-                await window.LuxeState[storageKey === 'cart' ? 'addToCart' : 'addToWishlist'](itemKey);
+                await window.LuxeState[storageKey === 'cart' ? 'addToCart' : 'addToWishlist'](storageKey === 'cart' ? item : itemKey);
             }
             return !alreadyExists;
         };
@@ -2059,11 +2092,15 @@
         const openModal = () => {
             modal.classList.add('is-open');
             document.body.classList.add('modal-open');
+            updateModalEstimate();
         };
         const hideModal = () => {
             modal.classList.remove('is-open');
             document.body.classList.remove('modal-open');
             activeModalKey = '';
+            if (modalWidth) modalWidth.value = '';
+            if (modalHeight) modalHeight.value = '';
+            if (modalEstimate) modalEstimate.textContent = '$0.00';
         };
         const truncate = (text, max = 90) => {
             const value = String(text || '');
@@ -2121,6 +2158,19 @@
             applyMobileProductLayout();
             updateActionState();
             updatePriceRangeVisual();
+        };
+
+        const updateModalEstimate = () => {
+            if (!modalEstimate || !activeModalKey) return;
+            const item = getItemByKey(activeModalKey);
+            if (!item) {
+                modalEstimate.textContent = '$0.00';
+                return;
+            }
+            const widthValue = Number(modalWidth?.value || 0);
+            const heightValue = Number(modalHeight?.value || 0);
+            const estimate = calculateEstimate(getUsdPrice(item), widthValue, heightValue);
+            modalEstimate.textContent = estimate > 0 ? `$${estimate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '$0.00';
         };
 
         const applyMobileProductLayout = () => {
@@ -2387,13 +2437,31 @@
                 modalRating.innerHTML = '';
                 modalRating.style.display = 'none';
             }
+            if (modalWidth) modalWidth.value = '';
+            if (modalHeight) modalHeight.value = '';
+            updateModalEstimate();
             openModal();
         });
 
         modalPrimaryBtn.addEventListener('click', () => {
             if (!activeModalKey || !getItemByKey(activeModalKey)) return;
+            const widthValue = Number(modalWidth?.value || 0);
+            const heightValue = Number(modalHeight?.value || 0);
+            if (!widthValue || !heightValue) {
+                showToast('Please enter width and height first.');
+                return;
+            }
             (async () => {
-                const added = await addToSavedList('cart', activeModalKey);
+                const item = getItemByKey(activeModalKey);
+                const baseRate = getUsdPrice(item);
+                const estimatedPrice = calculateEstimate(baseRate, widthValue, heightValue);
+                const added = await addToSavedList('cart', {
+                    key: activeModalKey,
+                    width: widthValue,
+                    height: heightValue,
+                    basePrice: baseRate,
+                    estimatedPrice
+                });
                 showToast(added ? 'Added to cart' : 'Already in cart');
                 if (added) bumpHeaderCart();
                 updateActionState();
@@ -2412,6 +2480,9 @@
                 setTimeout(() => goToSavedPage('wishlist', nextKey), 180);
             })();
         });
+
+        modalWidth?.addEventListener('input', updateModalEstimate);
+        modalHeight?.addEventListener('input', updateModalEstimate);
 
         closeModal.addEventListener('click', () => {
             hideModal();

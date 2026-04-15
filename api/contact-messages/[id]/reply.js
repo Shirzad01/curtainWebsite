@@ -57,18 +57,18 @@ module.exports = async (req, res) => {
 
   const replySubject = payload.subject
     ? String(payload.subject).trim()
-    : `Reply from Luxe Drapes for ${sourceMessage.roomType || 'your request'}`;
+    : `Reply from LustreView Blinds for ${sourceMessage.roomType || 'your request'}`;
 
   const replyHtml = `
     <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #222;">
-      <h2 style="margin: 0 0 16px;">Luxe Drapes</h2>
+      <h2 style="margin: 0 0 16px;">LustreView Blinds</h2>
       <p>Hello ${escapeHtml(sourceMessage.name)},</p>
       <p>${escapeHtml(replyMessage).replace(/\n/g, '<br>')}</p>
-      <p style="margin-top: 24px;">Best regards,<br>Luxe Drapes team</p>
+      <p style="margin-top: 24px;">Best regards,<br>LustreView Blinds team</p>
     </div>
   `;
 
-  const replyText = `Hello ${sourceMessage.name},\n\n${replyMessage}\n\nBest regards,\nLuxe Drapes team`;
+  const replyText = `Hello ${sourceMessage.name},\n\n${replyMessage}\n\nBest regards,\nLustreView Blinds team`;
   const emailWarning = getMailConfigError();
   let emailDelivered = false;
 

@@ -124,6 +124,7 @@
 }
 
 .saved-card-price {
+    display: none;
     color: var(--primary-dark);
     font-size: 18px;
     font-weight: 800;

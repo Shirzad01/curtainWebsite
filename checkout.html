@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout | Luxe Drapes</title>
+    <title>Checkout | LustreView Blinds</title>
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -436,9 +436,9 @@
                             <span>Payment method</span>
                             <select id="checkout-payment" name="paymentMethod" required>
                                 <option value="">Choose a payment method</option>
-                                <option>Cash on delivery</option>
-                                <option>Bank transfer</option>
-                                <option>Card payment on confirmation</option>
+                                <option>Cash</option>
+                                <option>Cheque</option>
+                                <option>E-Transfer</option>
                             </select>
                         </label>
 
@@ -471,10 +471,6 @@
                     <span>Items</span>
                     <strong id="checkout-count">0 items</strong>
                 </div>
-                <div class="checkout-summary-row">
-                    <span>Estimated subtotal</span>
-                    <strong id="checkout-total" class="checkout-summary-total">$0.00</strong>
-                </div>
 
                 <div class="checkout-summary-actions">
                     <a href="cart.html" class="btn-secondary">Back to cart</a>
@@ -489,7 +485,7 @@
             <div class="footer-brand">
                 <a href="index.html" class="logo">
                     <i class="fas fa-feather-pointed"></i>
-                    Luxe <span>Drapes</span>
+                    LustreView <span>Blinds</span>
                 </a>
                 <p>Premium custom curtains & drapery - crafted with passion and precision since 2010.</p>
                 <div class="footer-social">
@@ -524,14 +520,14 @@
                 <h3 class="footer-title">Contact Us</h3>
                 <ul>
                     <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
-                    <li><i class="fas fa-envelope"></i> hello@luxedrapes.ir</li>
+                    <li><i class="fas fa-envelope"></i> hello@lustreviewblinds.ca</li>
                     <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2026 Luxe Drapes - All Rights Reserved.</p>
+            <p>&copy; 2026 LustreView Blinds - All Rights Reserved.</p>
             <div class="footer-bottom-links">
                 <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a>
@@ -547,7 +543,6 @@
             const USD_RATE = 42000;
             const checkoutItems = document.getElementById('checkout-items');
             const checkoutCount = document.getElementById('checkout-count');
-            const checkoutTotal = document.getElementById('checkout-total');
             const checkoutStatus = document.getElementById('checkout-status');
             const checkoutSubmit = document.getElementById('checkout-submit');
             const checkoutForm = document.getElementById('checkout-form');
@@ -659,7 +654,6 @@
                 syncHeaderCounts(state);
 
                 checkoutCount.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
-                checkoutTotal.textContent = items.length ? formatMoney(total) : '$0.00';
 
                 if (!items.length) {
                     checkoutItems.innerHTML = `
@@ -679,30 +673,12 @@
                 checkoutSubmit.textContent = 'Place order';
 
                 checkoutItems.innerHTML = items.map((item) => {
-                    const measurement = getItemMeasurements(item);
-                    const resolvedWidth = measurement.width || width;
-                    const resolvedHeight = measurement.height || height;
-                    const resolvedSize = (resolvedWidth && resolvedHeight) ? `${resolvedWidth} cm x ${resolvedHeight} cm` : 'Size not saved';
-                    const resolvedEstimated = getItemEstimate(item, width, height);
                     return `
                     <article class="checkout-summary-item">
                         <img src="${item.image}" alt="${item.name}">
                         <div>
                             <h4>${item.name}</h4>
                             <p>${item.category}</p>
-                            <div class="checkout-summary-meta-row">
-                                <div class="checkout-summary-pill">
-                                    <span>Size</span>
-                                    <strong>${resolvedSize}</strong>
-                                </div>
-                                <div class="checkout-summary-pill">
-                                    <span>Estimated</span>
-                                    <strong>${formatMoney(resolvedEstimated)}</strong>
-                                </div>
-                            </div>
-                            <div style="margin-top:6px; font-size:0.85rem; color: rgba(255,255,255,0.72);">
-                                Base rate: ${formatBaseRate(item.price)} / m²
-                            </div>
                         </div>
                     </article>
                 `;

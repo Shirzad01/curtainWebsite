@@ -23,7 +23,7 @@
             summaryTitle: 'Cart summary',
             summaryText: 'Use the cart to keep a clean shortlist before checking out.',
             summaryValueLabel: 'Subtotal',
-            primaryLabel: 'Proceed to checkout',
+            primaryLabel: 'Complete Order',
             primaryHref: 'checkout.html'
         }
     };
@@ -53,7 +53,7 @@
     const formatBasePrice = (rawValue) => `From $${toUsd(rawValue).toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-    })} / m²`;
+    })} / mï¿½`;
     const formatMeasurement = (item) => {
         const width = Number(item?.width || 0);
         const height = Number(item?.height || 0);
@@ -83,18 +83,7 @@
     const getEntryKey = (entry) => (entry && typeof entry === 'object' ? entry.key : entry);
 
     const renderSummary = (items) => {
-        const total = items.reduce((sum, item) => {
-            if (pageType === 'cart' && Number(item.estimatedPrice || 0) > 0) {
-                return sum + Number(item.estimatedPrice || 0);
-            }
-            return sum + toUsd(Number(item.price) || 0);
-        }, 0);
         summaryCountEl.textContent = `${items.length} ${config.countLabel}${items.length === 1 ? '' : 's'}`;
-        summaryValueLabelEl.textContent = config.summaryValueLabel;
-        summaryValueEl.textContent = `$${total.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`;
     };
 
     const focusItem = () => {
@@ -126,7 +115,11 @@
         kickerEl.textContent = config.kicker;
         summaryTitleEl.textContent = config.summaryTitle;
         summaryTextEl.textContent = config.summaryText;
-        primaryCtaEl.textContent = config.primaryLabel;
+        if (pageType === 'cart') {
+            primaryCtaEl.innerHTML = `<i class="fas fa-shopping-cart"></i> ${config.primaryLabel}`;
+        } else {
+            primaryCtaEl.textContent = config.primaryLabel;
+        }
         primaryCtaEl.href = config.primaryHref;
         countEl.textContent = `${items.length} ${config.countLabel}${items.length === 1 ? '' : 's'}`;
 
@@ -174,7 +167,6 @@
                                 <span class="saved-card-category">${item.category}</span>
                                 <h3 class="saved-card-title">${item.name}</h3>
                             </div>
-                            <div class="saved-card-price">${formatBasePrice(item.price)}</div>
                         </div>
                         ${measurement ? `
                             <div class="saved-card-meta">

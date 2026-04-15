@@ -35,7 +35,7 @@
             <nav class="nav-container">
                 <a href="${isHomePage ? '#' : 'index.html'}" class="logo">
                     <i class="fas fa-feather-pointed"></i>
-                    Luxe <span>Drapes</span>
+                    LustreView <span>Blinds</span>
                 </a>
 
                 <ul class="nav-links">

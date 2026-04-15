@@ -74,6 +74,7 @@ const DEFAULT_STATE = {
   collections: DEFAULT_COLLECTIONS,
   contactMessages: [],
   orders: [],
+  appointments: [],
   sessions: {}
 };
 
@@ -271,6 +272,21 @@ const normalizeSessionState = (state) => ({
   updatedAt: state?.updatedAt || ''
 });
 
+const mapAppointmentRow = (row) => ({
+  id: row.id,
+  name: row.name || '',
+  email: row.email || '',
+  phone: row.phone || '',
+  serviceType: row.service_type || row.serviceType || 'Measurement',
+  preferredDate: row.preferred_date || row.preferredDate || '',
+  preferredTime: row.preferred_time || row.preferredTime || '',
+  notes: row.notes || '',
+  status: row.status || 'Pending',
+  source: row.source || 'website',
+  createdAt: row.created_at || row.createdAt || '',
+  updatedAt: row.updated_at || row.updatedAt || ''
+});
+
 const ensureRemoteDatabase = async () => {
   const sql = getSqlClient();
   if (!sql) return false;
@@ -344,6 +360,23 @@ const ensureRemoteDatabase = async () => {
       )
     `;
 
+    await sql`
+      CREATE TABLE IF NOT EXISTS appointments (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        service_type TEXT NOT NULL,
+        preferred_date TEXT NOT NULL,
+        preferred_time TEXT NOT NULL,
+        notes TEXT NOT NULL DEFAULT '',
+        status TEXT NOT NULL,
+        source TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    `;
+
     const collectionCount = await sql`SELECT COUNT(*)::int AS count FROM collections`;
     if (Number(collectionCount?.[0]?.count || 0) === 0) {
       for (const row of DEFAULT_COLLECTIONS) {
@@ -377,6 +410,7 @@ const normalizeState = (state) => ({
   collections: Array.isArray(state?.collections) ? state.collections : clone(DEFAULT_COLLECTIONS),
   contactMessages: Array.isArray(state?.contactMessages) ? state.contactMessages : [],
   orders: Array.isArray(state?.orders) ? state.orders : [],
+  appointments: Array.isArray(state?.appointments) ? state.appointments : [],
   sessions: state?.sessions && typeof state.sessions === 'object' ? state.sessions : {}
 });
 
@@ -754,6 +788,118 @@ const deleteOrder = async (id) => {
   await sql`DELETE FROM orders WHERE id = ${id}`;
 };
 
+const getAppointments = async () => {
+  if (!hasRemoteDatabase()) {
+    return clone(loadState().appointments).sort((a, b) => {
+      const left = new Date(b.createdAt || 0).getTime();
+      const right = new Date(a.createdAt || 0).getTime();
+      return left - right;
+    });
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  const rows = await sql`
+    SELECT id, name, email, phone, service_type, preferred_date, preferred_time, notes, status, source, created_at, updated_at
+    FROM appointments
+    ORDER BY created_at DESC
+  `;
+  return rows.map(mapAppointmentRow);
+};
+
+const setAppointments = async (appointments) => {
+  if (!hasRemoteDatabase()) {
+    const state = loadState();
+    state.appointments = clone(appointments);
+    saveState(state);
+    return getAppointments();
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`DELETE FROM appointments`;
+  for (const row of appointments) {
+    await sql`
+      INSERT INTO appointments (
+        id, name, email, phone, service_type, preferred_date, preferred_time, notes, status, source, created_at, updated_at
+      ) VALUES (
+        ${row.id},
+        ${row.name},
+        ${row.email},
+        ${row.phone},
+        ${row.serviceType},
+        ${row.preferredDate},
+        ${row.preferredTime},
+        ${row.notes || ''},
+        ${row.status || 'Pending'},
+        ${row.source || 'website'},
+        ${row.createdAt || new Date().toISOString()},
+        ${row.updatedAt || new Date().toISOString()}
+      )
+    `;
+  }
+  return getAppointments();
+};
+
+const upsertAppointment = async (row) => {
+  if (!hasRemoteDatabase()) {
+    const appointments = loadState().appointments.slice();
+    const index = appointments.findIndex((item) => item.id === row.id);
+    if (index >= 0) {
+      appointments[index] = row;
+    } else {
+      appointments.unshift(row);
+    }
+    return setAppointments(appointments);
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`
+    INSERT INTO appointments (
+      id, name, email, phone, service_type, preferred_date, preferred_time, notes, status, source, created_at, updated_at
+    ) VALUES (
+      ${row.id},
+      ${row.name},
+      ${row.email},
+      ${row.phone},
+      ${row.serviceType},
+      ${row.preferredDate},
+      ${row.preferredTime},
+      ${row.notes || ''},
+      ${row.status || 'Pending'},
+      ${row.source || 'website'},
+      ${row.createdAt || new Date().toISOString()},
+      ${row.updatedAt || new Date().toISOString()}
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      name = EXCLUDED.name,
+      email = EXCLUDED.email,
+      phone = EXCLUDED.phone,
+      service_type = EXCLUDED.service_type,
+      preferred_date = EXCLUDED.preferred_date,
+      preferred_time = EXCLUDED.preferred_time,
+      notes = EXCLUDED.notes,
+      status = EXCLUDED.status,
+      source = EXCLUDED.source,
+      created_at = COALESCE(appointments.created_at, EXCLUDED.created_at),
+      updated_at = EXCLUDED.updated_at
+  `;
+  return row;
+};
+
+const deleteAppointment = async (id) => {
+  if (!hasRemoteDatabase()) {
+    const appointments = loadState().appointments.filter((item) => item.id !== id);
+    setAppointments(appointments);
+    return;
+  }
+
+  const sql = getSqlClient();
+  await ensureRemoteDatabase();
+  await sql`DELETE FROM appointments WHERE id = ${id}`;
+};
+
 const getSessionState = async (sessionId) => {
   const normalizedSessionId = String(sessionId || '').trim();
   if (!normalizedSessionId) {
@@ -932,10 +1078,12 @@ const escapeHtml = (value) =>
 
 module.exports = {
   clone,
+  deleteAppointment,
   deleteCollection,
   deleteMessage,
   deleteOrder,
   escapeHtml,
+  getAppointments,
   getCollections,
   getMessages,
   getOrders,
@@ -946,10 +1094,12 @@ module.exports = {
   saveState,
   sendEmpty,
   sendJson,
+  setAppointments,
   setCollections,
   setMessages,
   setOrders,
   setSessionState,
+  upsertAppointment,
   upsertCollection,
   upsertMessage,
   upsertOrder,

@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
             subject: `New contact request from ${name}`,
             html: `
               <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #222;">
-                <h2 style="margin: 0 0 16px;">Luxe Drapes - New Request</h2>
+                <h2 style="margin: 0 0 16px;">LustreView Blinds - New Request</h2>
                 <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Room Type:</strong> ${roomType}</p>

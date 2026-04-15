@@ -4,73 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Drapes | Premium Custom Curtains & Design</title>
+    <title>LustreView Blinds | Premium Blinds Installation & Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=20260328">
     <style>
-        .quick-view-measurements {
-            display: grid;
-            gap: 12px;
-            padding: 16px;
-            border-radius: 20px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 242, 233, 0.9));
-            border: 1px solid rgba(17, 17, 17, 0.08);
-            box-shadow: 0 16px 30px rgba(17, 17, 17, 0.05);
-        }
-
-        .quick-view-measurements h4 {
-            margin: 0;
-            font-size: 0.98rem;
-            letter-spacing: 0.04em;
-        }
-
-        .quick-view-measurement-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .quick-view-measurements label {
-            display: grid;
-            gap: 6px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: var(--primary-dark);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .quick-view-measurements input {
-            width: 100%;
-            padding: 13px 14px;
-            border-radius: 16px;
-            border: 1px solid rgba(17, 17, 17, 0.12);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 245, 238, 0.96));
-            font-size: 1rem;
-            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9), 0 8px 18px rgba(17, 17, 17, 0.04);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-        }
-
-        .quick-view-measurements input:focus {
-            outline: none;
-            border-color: rgba(201, 169, 98, 0.8);
-            box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.16), 0 12px 20px rgba(17, 17, 17, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .quick-view-estimate {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            align-items: center;
-            padding: 12px 14px;
-            border-radius: 16px;
-            background: rgba(201, 169, 98, 0.12);
-            color: var(--primary-dark);
-            font-weight: 800;
-        }
     </style>
 
 </head>
@@ -396,7 +335,7 @@
     </section>
     <section class="why-us">
         <div class="section-header">
-            <span class="section-tag">WHY LUXE DRAPES</span>
+            <span class="section-tag">WHY LUSTREVIEW BLINDS</span>
             <h2 class="section-title">Crafted for Lasting Beauty</h2>
         </div>
         <div class="why-grid">
@@ -427,17 +366,16 @@
         <div class="about-content">
             <span class="section-tag">ABOUT US</span>
             <h2 class="section-title">Crafting Timeless Elegance</h2>
-            <p class="section-desc">With over 15 years of experience, Luxe Drapes combines traditional craftsmanship
-                with modern design to create window treatments that transform spaces.</p>
+            <p class="section-desc">We are a dedicated blinds installation company specializing in transforming homes and offices with stylish, functional, and high-quality window solutions. Our focus is simple: to help you create spaces that feel comfortable, modern, and truly your own.</p>
 
             <ul class="about-features">
-                <li><i class="fas fa-check"></i> Handcrafted in our atelier with premium materials</li>
-                <li><i class="fas fa-check"></i> Custom designs tailored to your exact specifications</li>
-                <li><i class="fas fa-check"></i> Sustainable & eco-conscious fabric options</li>
-                <li><i class="fas fa-check"></i> Professional measuring & installation service</li>
+                <li><i class="fas fa-check"></i> From consultation to installation - we handle every detail with precision and care</li>
+                <li><i class="fas fa-check"></i> Personalized guidance, accurate measurements, and professional installation</li>
+                <li><i class="fas fa-check"></i> Solutions combining practicality with design excellence</li>
+                <li><i class="fas fa-check"></i> Commitment to reliability and attention to detail in every project</li>
             </ul>
 
-            <a href="#contact" class="about-btn">Contact Our Design Team</a>
+            <a href="#contact" class="about-btn">Contact Our Team</a>
         </div>
     </section>
 
@@ -501,27 +439,85 @@
     </section>
     <section class="contact" id="contact">
         <div class="section-header">
-            <span class="section-tag">CHECKOUT</span>
-            <h2 class="section-title">Send Your Quote Request</h2>
-            <p class="section-desc">Use checkout when you already know what you want. It keeps your cart, measurements, and notes in one place.</p>
+            <span class="section-tag">SCHEDULE NOW</span>
+            <h2 class="section-title">Book Your Free Consultation</h2>
+            <p class="section-desc">Schedule a time that works best for you. Our team will visit your home to take measurements and discuss your perfect window treatment solution.</p>
         </div>
 
-        <div class="contact-grid">
-            <div class="contact-card">
-                <h3>Direct Contact</h3>
-                <p><i class="fas fa-phone"></i> +98 21 1234 5678</p>
-                <p><i class="fas fa-envelope"></i> hello@luxedrapes.ir</p>
-                <p><i class="fas fa-location-dot"></i> Tehran, Jordan St.</p>
-                <p style="margin-top:16px; color: var(--gray); line-height:1.8;">If you already have items in your cart, open checkout to finish the quote request. If you just want to browse, keep exploring the collection.</p>
+        <form id="appointment-form" class="appointment-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="appt-name">Full Name *</label>
+                    <input type="text" id="appt-name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="appt-email">Email Address *</label>
+                    <input type="email" id="appt-email" name="email" placeholder="your@email.com" required>
+                </div>
             </div>
 
-            <div class="contact-card">
-                <h3>Start from checkout</h3>
-                <p>That page is where we collect the project details, confirm the selected items, and send the request to the admin panel.</p>
-                <div style="display:flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;">
-                    <a href="checkout.html" class="btn-primary">Open Checkout</a>
-                    <a href="cart.html" class="btn-secondary">Review Cart</a>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="appt-phone">Phone Number *</label>
+                    <input type="tel" id="appt-phone" name="phone" placeholder="+1 (555) 123-4567" required>
                 </div>
+                <div class="form-group">
+                    <label for="appt-service">Service Type *</label>
+                    <select id="appt-service" name="serviceType" required>
+                        <option value="">Select a service</option>
+                        <option value="Measurement">At-Home Measurement</option>
+                        <option value="Installation">Installation Appointment</option>
+                        <option value="Consultation">Design Consultation</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="appt-date">Preferred Date *</label>
+                    <input type="date" id="appt-date" name="preferredDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="appt-time">Preferred Time *</label>
+                    <select id="appt-time" name="preferredTime" required>
+                        <option value="">Select a time</option>
+                        <option value="09:00 AM">09:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="appt-notes">Additional Notes (Optional)</label>
+                <textarea id="appt-notes" name="notes" placeholder="Tell us about your space, style preferences, or any questions..." rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="appt-submit">Schedule Appointment</button>
+            <div id="appt-message" class="form-message" style="display: none; margin-top: 16px; padding: 12px; border-radius: 8px;"></div>
+        </form>
+
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
+            <div style="text-align: center;">
+                <p style="font-size: 28px; margin: 0;">📞</p>
+                <h4>Direct Call</h4>
+                <p style="margin: 8px 0; color: #666;">+98 21 1234 5678</p>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 28px; margin: 0;">✉️</p>
+                <h4>Email Us</h4>
+                <p style="margin: 8px 0; color: #666;">hello@lustreviewblinds.ca</p>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 28px; margin: 0;">🏪</p>
+                <h4>Checkout</h4>
+                <a href="checkout.html" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">Place your order</a>
             </div>
         </div>
     </section>
@@ -536,24 +532,6 @@
                     <span id="quick-view-category" class="quick-view-category"></span>
                     <h3 id="quick-view-title"></h3>
                     <p id="quick-view-description"></p>
-                    <div class="quick-view-measurements">
-                        <h4>Measurement estimate</h4>
-                        <div class="quick-view-measurement-grid">
-                            <label>
-                                Width (cm)
-                                <input id="quick-view-width" type="number" min="1" step="1" placeholder="Enter width">
-                            </label>
-                            <label>
-                                Height (cm)
-                                <input id="quick-view-height" type="number" min="1" step="1" placeholder="Enter height">
-                            </label>
-                        </div>
-                        <div class="quick-view-estimate">
-                            <span>Estimated total</span>
-                            <strong id="quick-view-estimate-total">$0.00</strong>
-                        </div>
-                        <small style="color: var(--gray); line-height: 1.5;">Card prices are base rates per square meter. Final total depends on your measured width and height.</small>
-                    </div>
                     <div class="quick-view-footer">
                         <span id="quick-view-price" class="quick-view-price"></span>
                         <button type="button" id="quick-view-add-cart" class="btn-primary">Add to Cart</button>
@@ -650,14 +628,14 @@
                 <h3 class="footer-title">Contact Us</h3>
                 <ul>
                     <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
-                    <li><i class="fas fa-envelope"></i> hello@luxedrapes.ir</li>
+                    <li><i class="fas fa-envelope"></i> hello@lustreviewblinds.ca</li>
                     <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>(c) 2026 Luxe Drapes - All Rights Reserved.</p>
+            <p>(c) 2026 LustreView Blinds - All Rights Reserved.</p>
             <div class="footer-bottom-links">
                 <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a>
@@ -706,9 +684,6 @@
         const modalDescription = document.getElementById('quick-view-description');
         const modalPrice = document.getElementById('quick-view-price');
         const modalAddCart = document.getElementById('quick-view-add-cart');
-        const modalWidth = document.getElementById('quick-view-width');
-        const modalHeight = document.getElementById('quick-view-height');
-        const modalEstimate = document.getElementById('quick-view-estimate-total');
         const quickViewBackdrop = modal.querySelector('.quick-view-backdrop');
         const quickViewContent = modal.querySelector('.quick-view-content');
         const favoritesPanel = document.getElementById('favorites-panel');
@@ -762,18 +737,12 @@
             return baseRate * widthM * heightM;
         };
         const getCartItemPayload = () => {
-            const widthValue = Number(modalWidth?.value || 0);
-            const heightValue = Number(modalHeight?.value || 0);
             const baseRate = activeProductKey ? getBaseRate(findCardByKey(activeProductKey)) : 0;
             return {
                 key: activeProductKey,
-                width: widthValue,
-                height: heightValue,
-                basePrice: baseRate ? baseRate * 1 : 0,
-                estimatedPrice: calculateEstimate(baseRate, widthValue, heightValue)
+                basePrice: baseRate ? baseRate * 1 : 0
             };
         };
-        let quickViewEstimateHandler = null;
 
         const updateActionState = () => {
             const favorites = getSavedSet('wishlist');
@@ -1101,18 +1070,6 @@
             modalTitle.textContent = activeProductKey;
             modalDescription.textContent = card.querySelector('.product-info p').textContent.trim();
             modalPrice.textContent = card.querySelector('.price').textContent.trim();
-            const baseRate = getBaseRate(card);
-            quickViewEstimateHandler = () => {
-                const widthValue = Number(modalWidth?.value || 0);
-                const heightValue = Number(modalHeight?.value || 0);
-                const estimate = calculateEstimate(baseRate, widthValue, heightValue);
-                if (modalEstimate) modalEstimate.textContent = estimate > 0 ? formatUsdDirect(estimate) : '$0.00';
-            };
-            modalWidth && (modalWidth.value = '');
-            modalHeight && (modalHeight.value = '');
-            modalWidth && (modalWidth.oninput = quickViewEstimateHandler);
-            modalHeight && (modalHeight.oninput = quickViewEstimateHandler);
-            quickViewEstimateHandler();
             if (quickViewContent) {
                 quickViewContent.scrollTop = 0;
             }
@@ -1127,8 +1084,6 @@
             modal.style.display = 'none';
             modal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('modal-open');
-            if (modalWidth) modalWidth.oninput = null;
-            if (modalHeight) modalHeight.oninput = null;
         };
 
         const handlePanelAction = (event) => {
@@ -1241,12 +1196,6 @@
         });
 
         modalAddCart.addEventListener('click', () => {
-            const widthValue = Number(modalWidth?.value || 0);
-            const heightValue = Number(modalHeight?.value || 0);
-            if (!widthValue || !heightValue) {
-                showErrorToast('Please enter width and height first.');
-                return;
-            }
             if (!activeProductKey) return;
             (async () => {
                 const added = await addToCart(getCartItemPayload());
@@ -1277,6 +1226,71 @@
             updateActionState();
             syncPanels();
         });
+
+        // Appointment form handler
+        const appointmentForm = document.getElementById('appointment-form');
+        const appointmentMessage = document.getElementById('appt-message');
+        
+        if (appointmentForm) {
+            appointmentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    name: document.getElementById('appt-name').value.trim(),
+                    email: document.getElementById('appt-email').value.trim(),
+                    phone: document.getElementById('appt-phone').value.trim(),
+                    serviceType: document.getElementById('appt-service').value,
+                    preferredDate: document.getElementById('appt-date').value,
+                    preferredTime: document.getElementById('appt-time').value,
+                    notes: document.getElementById('appt-notes').value.trim(),
+                    source: 'website'
+                };
+
+                // Validate required fields
+                if (!formData.name || !formData.email || !formData.phone || !formData.serviceType || !formData.preferredDate || !formData.preferredTime) {
+                    appointmentMessage.textContent = 'Please fill in all required fields.';
+                    appointmentMessage.className = 'form-message error';
+                    appointmentMessage.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    appointmentMessage.style.display = 'none';
+                    document.getElementById('appt-submit').disabled = true;
+                    document.getElementById('appt-submit').textContent = 'Scheduling...';
+
+                    const response = await fetch('/api/appointments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Failed to schedule appointment');
+                    }
+
+                    appointmentMessage.textContent = '✓ Appointment scheduled successfully! Check your email for confirmation details.';
+                    appointmentMessage.className = 'form-message success';
+                    appointmentMessage.style.display = 'block';
+                    appointmentForm.reset();
+                    
+                    // Scroll to message
+                    appointmentMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } catch (error) {
+                    console.error('Appointment error:', error);
+                    appointmentMessage.textContent = `Error: ${error.message}`;
+                    appointmentMessage.className = 'form-message error';
+                    appointmentMessage.style.display = 'block';
+                } finally {
+                    document.getElementById('appt-submit').disabled = false;
+                    document.getElementById('appt-submit').textContent = 'Schedule Appointment';
+                }
+            });
+        }
 
         if (window.LuxeState?.ready) {
             window.LuxeState.ready().then(() => {

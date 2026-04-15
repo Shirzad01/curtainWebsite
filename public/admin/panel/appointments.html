@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | LustreView Blinds Admin</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .appointment-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .appointment-pill.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .appointment-pill.confirmed {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+
+        .appointment-pill.cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .appointment-card {
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+            background: #fff;
+            margin-bottom: 16px;
+        }
+
+        .appointment-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .appointment-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .appointment-actions button {
+            border: 1px solid #d1d5db;
+            background: #fff;
+            color: #1f2937;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .appointment-actions button:hover {
+            border-color: #c9a962;
+            color: #c9a962;
+            background: rgba(201, 169, 98, 0.05);
+        }
+
+        .metric-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin: 0 0 8px 0;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .feedback {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 14px;
+            display: none;
+        }
+
+        .feedback.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .feedback.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .list-container {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .list-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .list-header h2 {
+            font-size: 18px;
+            margin: 0 0 4px 0;
+        }
+
+        .list-header p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #e0e7ff;
+            color: #4f46e5;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Appointments</h1>
+            <p>Manage customer appointments and schedule consultations</p>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Appointments</div>
+                <div id="total-count" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Pending</div>
+                <div id="pending-count" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Confirmed</div>
+                <div id="confirmed-count" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Cancelled</div>
+                <div id="cancelled-count" class="metric-value">0</div>
+            </div>
+        </div>
+
+        <div class="list-container">
+            <div class="list-header">
+                <h2>Scheduled Appointments</h2>
+                <p>Review and manage customer appointments for at-home measurements and consultations</p>
+            </div>
+            <div id="appointments-list"></div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const API_BASE = (() => {
+                const configuredBase =
+                    window.__LUXE_API_BASE__ ||
+                    document.querySelector('meta[name="luxe-api-base"]')?.content ||
+                    "";
+                const { protocol, hostname, port, origin } = window.location;
+                if (configuredBase) return configuredBase.replace(/\/$/, "");
+                if (protocol === "file:") return "http://localhost:3001/api";
+                if (hostname === "localhost" && port && port !== "3001") {
+                    return "http://localhost:3001/api";
+                }
+                return `${origin}/api`;
+            })();
+
+            const feedback = document.getElementById("feedback");
+            const listContainer = document.getElementById("appointments-list");
+            const metrics = {
+                total: document.getElementById("total-count"),
+                pending: document.getElementById("pending-count"),
+                confirmed: document.getElementById("confirmed-count"),
+                cancelled: document.getElementById("cancelled-count"),
+            };
+
+            const setFeedback = (message = "", kind = "") => {
+                feedback.textContent = message;
+                feedback.className = "feedback";
+                if (kind === "error") {
+                    feedback.classList.add("error");
+                } else if (kind === "success") {
+                    feedback.classList.add("success");
+                }
+                if (message) feedback.style.display = "block";
+                else feedback.style.display = "none";
+            };
+
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                });
+            };
+
+            const formatTime = (timeString) => {
+                return timeString;
+            };
+
+            const escapeHtml = (value) =>
+                String(value ?? "")
+                    .replaceAll("&", "&amp;")
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll('"', "&quot;")
+                    .replaceAll("'", "&#39;");
+
+            const statusClass = (status) => {
+                if (status === "Confirmed") return "confirmed";
+                if (status === "Cancelled") return "cancelled";
+                return "pending";
+            };
+
+            const serviceTypeClass = (serviceType) => {
+                const types = {
+                    "Measurement": "#e0e7ff",
+                    "Installation": "#fef3c7",
+                    "Consultation": "#dbeafe",
+                };
+                return types[serviceType] || "#e5e7eb";
+            };
+
+            const renderMetrics = (appointments) => {
+                const counts = {
+                    total: appointments.length,
+                    pending: appointments.filter((a) => a.status === "Pending").length,
+                    confirmed: appointments.filter((a) => a.status === "Confirmed").length,
+                    cancelled: appointments.filter((a) => a.status === "Cancelled").length,
+                };
+                metrics.total.textContent = counts.total;
+                metrics.pending.textContent = counts.pending;
+                metrics.confirmed.textContent = counts.confirmed;
+                metrics.cancelled.textContent = counts.cancelled;
+            };
+
+            const renderAppointments = (appointments) => {
+                renderMetrics(appointments);
+
+                if (!appointments.length) {
+                    listContainer.innerHTML = '<div class="empty-state">No appointments scheduled yet</div>';
+                    return;
+                }
+
+                listContainer.innerHTML = appointments
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .map(
+                        (apt) => `
+                    <div class="appointment-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0; font-size: 16px;">
+                                    ${escapeHtml(apt.name)}
+                                </h3>
+                                <span class="appointment-pill ${statusClass(apt.status)}">
+                                    ${apt.status}
+                                </span>
+                                <span class="service-badge" style="margin-left: 8px;">
+                                    ${escapeHtml(apt.serviceType)}
+                                </span>
+                            </div>
+                            <span style="color: #6b7280; font-size: 12px;">
+                                ${formatDate(apt.createdAt)}
+                            </span>
+                        </div>
+
+                        <div class="appointment-line">
+                            <div>
+                                <strong>Email:</strong> ${escapeHtml(apt.email)}
+                            </div>
+                            <div>
+                                <strong>Phone:</strong> ${escapeHtml(apt.phone)}
+                            </div>
+                        </div>
+
+                        <div class="appointment-line">
+                            <div>
+                                <strong>Appointment:</strong> ${formatDate(apt.preferredDate)} at ${formatTime(apt.preferredTime)}
+                            </div>
+                            ${apt.notes ? `<div><strong>Notes:</strong> ${escapeHtml(apt.notes.substring(0, 50))}${apt.notes.length > 50 ? "..." : ""}</div>` : ""}
+                        </div>
+
+                        <div class="appointment-actions">
+                            ${apt.status !== "Confirmed" ? `<button data-id="${escapeHtml(apt.id)}" data-action="confirm">Confirm</button>` : ""}
+                            ${apt.status !== "Cancelled" ? `<button data-id="${escapeHtml(apt.id)}" data-action="cancel">Cancel</button>` : ""}
+                            <button data-id="${escapeHtml(apt.id)}" data-action="delete" style="color: #ef4444; border-color: #f87171;">Delete</button>
+                        </div>
+                    </div>
+                `
+                    )
+                    .join("");
+            };
+
+            const fetchAppointments = async () => {
+                const response = await fetch(`${API_BASE}/appointments`, { cache: "no-store" });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(payload.error || "Could not load appointments.");
+                }
+                return Array.isArray(payload) ? payload : [];
+            };
+
+            const updateAppointmentStatus = async (id, status) => {
+                const response = await fetch(`${API_BASE}/appointments/${encodeURIComponent(id)}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status }),
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(payload.error || "Could not update the appointment.");
+                }
+                return payload;
+            };
+
+            const deleteAppointment = async (id) => {
+                const response = await fetch(`${API_BASE}/appointments/${encodeURIComponent(id)}`, {
+                    method: "DELETE",
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(payload.error || "Could not delete the appointment.");
+                }
+                return payload;
+            };
+
+            const loadAppointments = async () => {
+                try {
+                    const appointments = await fetchAppointments();
+                    renderAppointments(appointments);
+                    setFeedback("");
+                } catch (error) {
+                    renderAppointments([]);
+                    setFeedback(error.message || "Could not load appointments.", "error");
+                }
+            };
+
+            document.addEventListener("click", async (event) => {
+                const button = event.target.closest("[data-action]");
+                if (!button) return;
+
+                const id = button.dataset.id;
+                const action = button.dataset.action;
+                if (!id) return;
+
+                button.disabled = true;
+                try {
+                    if (action === "confirm") {
+                        await updateAppointmentStatus(id, "Confirmed");
+                        setFeedback("Appointment confirmed.", "success");
+                    } else if (action === "cancel") {
+                        await updateAppointmentStatus(id, "Cancelled");
+                        setFeedback("Appointment cancelled.", "success");
+                    } else if (action === "delete") {
+                        await deleteAppointment(id);
+                        setFeedback("Appointment deleted.", "success");
+                    }
+                    await loadAppointments();
+                } catch (error) {
+                    setFeedback(error.message || "Action failed.", "error");
+                } finally {
+                    button.disabled = false;
+                }
+            });
+
+            loadAppointments();
+        })();
+    </script>
+</body>
+</html>

@@ -456,18 +456,18 @@ app.post('/api/contact-messages/:id/reply', async (req, res) => {
 
   const replySubject = payload.subject
     ? String(payload.subject).trim()
-    : `Reply from Luxe Drapes for ${existing.room_type}`;
+    : `Reply from LustreView Blinds for ${existing.room_type}`;
 
   const replyHtml = `
     <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #222;">
-      <h2 style="margin: 0 0 16px;">Luxe Drapes</h2>
+      <h2 style="margin: 0 0 16px;">LustreView Blinds</h2>
       <p>Hello ${escapeHtml(existing.name)},</p>
       <p>${escapeHtml(replyMessage).replace(/\n/g, '<br>')}</p>
-      <p style="margin-top: 24px;">Best regards,<br>Luxe Drapes team</p>
+      <p style="margin-top: 24px;">Best regards,<br>LustreView Blinds team</p>
     </div>
   `;
 
-  const replyText = `Hello ${existing.name},\n\n${replyMessage}\n\nBest regards,\nLuxe Drapes team`;
+  const replyText = `Hello ${existing.name},\n\n${replyMessage}\n\nBest regards,\nLustreView Blinds team`;
   let emailDelivered = false;
   let emailWarning = getMailConfigError();
 
@@ -518,6 +518,6 @@ app.post('/api/contact-messages/:id/reply', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Luxe Drapes API running on http://localhost:${PORT}`);
+  console.log(`LustreView Blinds API running on http://localhost:${PORT}`);
 });
 

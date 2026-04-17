@@ -7,7 +7,7 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Contact Messages | Luxe Drapes Admin</title>
+    <title>Contact Messages | LustreView Blinds Admin</title>
     <style>
       #reply-modal {
         position: fixed;
@@ -82,7 +82,7 @@
         overflow: hidden;
       }
     </style>
-  <link rel="icon" href="favicon.ico"><link href="style.css?v=1776119695375" rel="stylesheet"></head>
+  <link rel="icon" href="favicon.ico"><link href="style.css?v=1776464273054" rel="stylesheet"></head>
   <body
     x-data="{ page: 'contact', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
     x-init="
@@ -1332,7 +1332,7 @@
         };
         document.getElementById('reply-title').textContent = `Reply to ${message.name}`;
         replyRecipient.textContent = `To: ${message.name} <${message.email || message.phone}>`;
-        replySubject.value = `Reply from Luxe Drapes for ${message.roomType || message.room_type || 'your request'}`;
+        replySubject.value = `Reply from LustreView Blinds for ${message.roomType || message.room_type || 'your request'}`;
         replyBody.value = '';
         replyStatus.textContent = '';
         replyModal.style.display = 'flex';
@@ -1449,5 +1449,5 @@
         listEl.innerHTML = '<p class="text-sm text-red-600">Database is not reachable. Start the server first.</p>';
       });
     </script>
-  <script defer src="bundle.js?v=1776119695375"></script></body>
+  <script defer src="bundle.js?v=1776464273054"></script></body>
 </html>

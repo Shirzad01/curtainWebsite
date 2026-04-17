@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=20260328">
     <style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 
 </head>
@@ -23,7 +33,7 @@
     <section class="hero-premium" id="home">
         <div class="hero-inner">
             <div class="p-slide active">
-                <div class="p-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=1600');"></div>
+                <div class="p-slide-bg" style="background-image: url('img/curtain-1.jpg');"></div>
                 <div class="p-slide-content">
                     <span class="p-subtitle">Collection 2026</span>
                     <h1 class="p-title">Modern <span>Minimalism</span></h1>
@@ -36,7 +46,7 @@
             </div>
 
             <div class="p-slide">
-                <div class="p-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600');"></div>
+                <div class="p-slide-bg" style="background-image: url('img/curtain-2.jpg');"></div>
                 <div class="p-slide-content">
                     <span class="p-subtitle">Luxury Texture</span>
                     <h1 class="p-title">Royal <span>Velvet</span></h1>
@@ -49,7 +59,7 @@
             </div>
 
             <div class="p-slide">
-                <div class="p-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600565193348-f74a4d160a86?w=1600');"></div>
+                <div class="p-slide-bg" style="background-image: url('https://res.cloudinary.com/dgyjxz9di/image/upload/v1776366874/WhatsApp_Image_2026-04-16_at_1.32.53_PM_1_tu2e4t.jpg');"></div>
                 <div class="p-slide-content">
                     <span class="p-subtitle">Custom Comfort</span>
                     <h1 class="p-title">Light <span>Perfected</span></h1>
@@ -105,7 +115,7 @@
                         kitchens.
                     </p>
                     <div class="product-price">
-                        <span class="price">From $67.86 / m²</span>
+                        <span class="price">From $67.86 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
@@ -134,7 +144,7 @@
                     <h3 class="product-name">Charcoal Gray Zebra Blackout</h3>
                     <p>Full blackout capability with charcoal tones - perfect privacy and darkness for bedrooms.</p>
                     <div class="product-price">
-                        <span class="price">From $82.14 / m²</span>
+                        <span class="price">From $82.14 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -163,7 +173,7 @@
                     <h3 class="product-name">Ivory Cream Zebra Shades</h3>
                     <p>Bright cream tones with soft sheer bands - creates a calm, airy feel in bright spaces.</p>
                     <div class="product-price">
-                        <span class="price">From $63.10 / m²</span>
+                        <span class="price">From $63.10 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
@@ -193,7 +203,7 @@
                     <p>Cozy warm beige with complete light blocking - great for large living areas and home theaters.
                     </p>
                     <div class="product-price">
-                        <span class="price">From $75.00 / m²</span>
+                        <span class="price">From $75.00 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -206,7 +216,7 @@
             <div class="product-card" data-price="2457000" data-category="beige / taupe light filtering">
                 <div class="product-image">
                     <span class="product-badge">Soft Sheer</span>
-                    <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=1600&auto=format&fit=crop&q=80"
+                    <img src="https://res.cloudinary.com/dgyjxz9di/image/upload/v1776458778/IMG_2957_ghpred.webp"
                         alt="Sandstone Zebra Blinds" loading="lazy">
                     <div class="product-actions">
                         <button class="product-action" data-action="favorite"
@@ -222,7 +232,7 @@
                     <h3 class="product-name">Sandstone Zebra Light Control</h3>
                     <p>Soft layered bands that keep the room bright while filtering harsh midday glare.</p>
                     <div class="product-price">
-                        <span class="price">From $58.50 / m²</span>
+                        <span class="price">From $58.50 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fa-regular fa-star"></i>
@@ -235,7 +245,7 @@
             <div class="product-card" data-price="2305800" data-category="cream / ivory light filtering">
                 <div class="product-image">
                     <span class="product-badge">New Color</span>
-                    <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=1600&auto=format&fit=crop&q=80"
+                    <img src="https://res.cloudinary.com/dgyjxz9di/image/upload/v1776458778/IMG_2933_1_szt27a.webp"
                         alt="Pearl White Zebra Blinds" loading="lazy">
                     <div class="product-actions">
                         <button class="product-action" data-action="favorite"
@@ -251,7 +261,7 @@
                     <h3 class="product-name">Pearl White Zebra Sheer</h3>
                     <p>Clean ivory tones with gentle transparency for kitchens, studios, and bright lounges.</p>
                     <div class="product-price">
-                        <span class="price">From $54.90 / m²</span>
+                        <span class="price">From $54.90 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star-half-alt"></i><i class="fa-regular fa-star"></i>
@@ -264,7 +274,7 @@
             <div class="product-card" data-price="3704400" data-category="gray / charcoal blackout">
                 <div class="product-image">
                     <span class="product-badge">Night Mode</span>
-                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&auto=format&fit=crop&q=80"
+                    <img src="https://res.cloudinary.com/dgyjxz9di/image/upload/v1776366874/WhatsApp_Image_2026-04-16_at_1.32.53_PM_1_tu2e4t.jpg"
                         alt="Graphite Zebra Blackout" loading="lazy">
                     <div class="product-actions">
                         <button class="product-action" data-action="favorite"
@@ -280,7 +290,7 @@
                     <h3 class="product-name">Graphite Night Zebra Blackout</h3>
                     <p>Deep charcoal layers for bedrooms and media rooms that demand privacy and darkness.</p>
                     <div class="product-price">
-                        <span class="price">From $88.20 / m²</span>
+                        <span class="price">From $88.20 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
@@ -293,7 +303,7 @@
             <div class="product-card" data-price="3040800" data-category="beige / taupe light filtering">
                 <div class="product-image">
                     <span class="product-badge">Designer Pick</span>
-                    <img src="https://images.unsplash.com/photo-1600565193348-f74a4d160a86?w=1600&auto=format&fit=crop&q=80"
+                    <img src="https://res.cloudinary.com/dgyjxz9di/image/upload/v1776366878/WhatsApp_Image_2026-04-16_at_1.32.53_PM_yrwtcs.jpg"
                         alt="Mocha Zebra Dual Shade" loading="lazy">
                     <div class="product-actions">
                         <button class="product-action" data-action="favorite"
@@ -309,7 +319,7 @@
                     <h3 class="product-name">Mocha Zebra Dual Shade</h3>
                     <p>Balanced warm neutrals with crisp band alignment for modern open-plan interiors.</p>
                     <div class="product-price">
-                        <span class="price">From $72.40 / m²</span>
+                        <span class="price">From $72.40 / m�</span>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                 class="fas fa-star-half-alt"></i><i class="fa-regular fa-star"></i>
@@ -499,28 +509,10 @@
                 <textarea id="appt-notes" name="notes" placeholder="Tell us about your space, style preferences, or any questions..." rows="4"></textarea>
             </div>
 
-            <button type="submit" class="btn-primary" id="appt-submit">Schedule Appointment</button>
-            <div id="appt-message" class="form-message" style="display: none; margin-top: 16px; padding: 12px; border-radius: 8px;"></div>
-        </form>
-
-        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
-            <div style="text-align: center;">
-                <p style="font-size: 28px; margin: 0;">📞</p>
-                <h4>Direct Call</h4>
-                <p style="margin: 8px 0; color: #666;">+98 21 1234 5678</p>
-            </div>
-            <div style="text-align: center;">
-                <p style="font-size: 28px; margin: 0;">✉️</p>
-                <h4>Email Us</h4>
-                <p style="margin: 8px 0; color: #666;">hello@lustreviewblinds.ca</p>
-            </div>
-            <div style="text-align: center;">
-                <p style="font-size: 28px; margin: 0;">🏪</p>
-                <h4>Checkout</h4>
-                <a href="checkout.html" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">Place your order</a>
-            </div>
-        </div>
-    </section>
+        <button type="submit" class="btn-primary" id="appt-submit">Schedule Appointment</button>
+        <div id="appt-message" class="form-message" style="display: none; margin-top: 16px; padding: 12px; border-radius: 8px;"></div>
+    </form>
+</section>
 
     <div id="quick-view-modal" class="quick-view-modal" aria-hidden="true">
         <div class="quick-view-backdrop" aria-hidden="true"></div>
@@ -533,7 +525,6 @@
                     <h3 id="quick-view-title"></h3>
                     <p id="quick-view-description"></p>
                     <div class="quick-view-footer">
-                        <span id="quick-view-price" class="quick-view-price"></span>
                         <button type="button" id="quick-view-add-cart" class="btn-primary">Add to Cart</button>
                     </div>
                 </div>
@@ -583,14 +574,12 @@
         </aside>
     </div>
 
-    <div id="action-toast" class="action-toast" aria-live="polite" aria-atomic="true"></div>
-
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="#" class="logo">
                     <i class="fas fa-feather-pointed"></i>
-                    Luxe <span>Drapes</span>
+                    LustreView <span>Blinds</span>
                 </a>
                 <p>Premium custom curtains & drapery - crafted with passion and precision since 2010.</p>
                 <div class="footer-social">
@@ -627,8 +616,8 @@
             <div class="footer-contact">
                 <h3 class="footer-title">Contact Us</h3>
                 <ul>
-                    <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
-                    <li><i class="fas fa-envelope"></i> hello@lustreviewblinds.ca</li>
+                    <li><i class="fas fa-phone"></i> +1 613 200 7199</li>
+                    <li><i class="fas fa-envelope"></i> info@lustreview.com</li>
                     <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
                 </ul>
             </div>
@@ -702,6 +691,19 @@
         const mobileProductQuery = window.matchMedia('(max-width: 768px)');
         const USD_RATE = 42000;
         const toUsd = (value) => Number(value || 0) / USD_RATE;
+
+        const showActionToast = (message) => {
+            let toast = document.getElementById('action-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'action-toast';
+                toast.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(20,20,20,0.9); color: white; padding: 12px 24px; border-radius: 12px; z-index: 99999; font-size: 14px; opacity: 0; transition: opacity 0.3s;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+        };
         const formatUsd = (rawValue) => `$${toUsd(rawValue).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -852,26 +854,7 @@
             window.location.href = `cart.html?focus=${encodeURIComponent(key || '')}`;
         };
 
-        const showActionToast = (message) => {
-            if (!actionToast) return;
-            actionToast.textContent = message;
-            actionToast.classList.remove('is-error');
-            actionToast.classList.add('is-visible');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                actionToast.classList.remove('is-visible');
-            }, 2800);
-        };
 
-        const showErrorToast = (message) => {
-            if (!actionToast) return;
-            actionToast.textContent = message;
-            actionToast.classList.add('is-visible', 'is-error');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                actionToast.classList.remove('is-visible', 'is-error');
-            }, 2600);
-        };
 
         const closeSavedPanels = () => {
             [favoritesPanel, cartPanel].forEach((panel) => {
@@ -1069,7 +1052,7 @@
             modalCategory.textContent = card.querySelector('.product-category').textContent.trim();
             modalTitle.textContent = activeProductKey;
             modalDescription.textContent = card.querySelector('.product-info p').textContent.trim();
-            modalPrice.textContent = card.querySelector('.price').textContent.trim();
+            modalPrice.textContent = ''; // Removed price display as per user request
             if (quickViewContent) {
                 quickViewContent.scrollTop = 0;
             }
@@ -1146,24 +1129,69 @@
                         const action = button.dataset.action;
 
                         if (action === 'favorite') {
-                            (async () => {
-                                const added = await addToFavorites(key);
-                                updateActionState();
-                                syncPanels();
-                                showActionToast(added ? 'Saved to favorites' : 'Already in favorites');
-                                setTimeout(() => gotoWishlistPage(key), 700);
-                            })();
+                            try {
+                                const favorites = getSavedSet('wishlist');
+                                if (favorites.has(key)) {
+                                    // Remove from wishlist
+                                    (async () => {
+                                        if (window.LuxeState?.removeFromWishlist) {
+                                            await window.LuxeState.removeFromWishlist(key);
+                                        }
+                                        updateActionState();
+                                        syncPanels();
+                                        showActionToast('Removed from favorites');
+                                    })();
+                                } else {
+                                    // Add to wishlist
+                                    console.log('Adding to favorites, key:', key);
+                                    addToFavorites(key).then((result) => {
+                                        console.log('addToFavorites result:', result);
+                                        updateActionState();
+                                        syncPanels();
+                                        console.log('Showing toast: Added to favorites');
+                                        showActionToast('Added to favorites');
+                                    }).catch((err) => {
+                                        console.error('addToFavorites error:', err);
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Favorite error:', error);
+                                showActionToast('Error: ' + error.message);
+                            }
                             return;
                         }
 
                         if (action === 'cart') {
-                            (async () => {
-                                const added = await addToCart({ key });
-                                updateActionState();
-                                syncPanels();
-                                showActionToast(added ? 'Added to cart' : 'Already in cart');
-                                if (added) bumpHeaderCart();
-                            })();
+                            try {
+                                const cart = getSavedSet('cart');
+                                if (cart.has(key)) {
+                                    // Remove from cart
+                                    (async () => {
+                                        if (window.LuxeState?.removeFromCart) {
+                                            await window.LuxeState.removeFromCart(key);
+                                        }
+                                        updateActionState();
+                                        syncPanels();
+                                        showActionToast('Removed from cart');
+                                    })();
+                                } else {
+                                    // Add to cart
+                                    console.log('Adding to cart, key:', key);
+                                    addToCart({ key }).then((result) => {
+                                        console.log('addToCart result:', result);
+                                        updateActionState();
+                                        syncPanels();
+                                        console.log('Showing toast: Added to cart');
+                                        showActionToast('Added to cart');
+                                        bumpHeaderCart();
+                                    }).catch((err) => {
+                                        console.error('addToCart error:', err);
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Cart error:', error);
+                                showActionToast('Error: ' + error.message);
+                            }
                             return;
                         }
 
@@ -1273,7 +1301,7 @@
                         throw new Error(result.error || 'Failed to schedule appointment');
                     }
 
-                    appointmentMessage.textContent = '✓ Appointment scheduled successfully! Check your email for confirmation details.';
+                    appointmentMessage.textContent = '? Appointment scheduled successfully! Check your email for confirmation details.';
                     appointmentMessage.className = 'form-message success';
                     appointmentMessage.style.display = 'block';
                     appointmentForm.reset();
@@ -1308,3 +1336,4 @@
 </body>
 
 </html>
+

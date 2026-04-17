@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1776119695375">
+    <link rel="stylesheet" href="style.css?v=1776464273054">
     <style>
         :root {
             --collection-bg: #f4f2ee;
@@ -266,8 +266,8 @@
 
         .filter-orbit-container {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             margin: 38px 0 30px;
             z-index: 30;
         }
@@ -315,8 +315,8 @@
         .orbit-main-btn {
             position: absolute;
             inset: 0;
-            width: 95px;
-            height: 95px;
+            width: 60px;
+            height: 60px;
             margin: auto;
             border-radius: 50%;
             background: radial-gradient(circle at center, #1a1815, #0d0c0a);
@@ -1434,6 +1434,17 @@
             }
         }
 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 980px) {
             .collection-hero {
                 margin: 18px 2.4% 0;
@@ -1731,8 +1742,8 @@
 <body data-site-page="collection">
 
     <div data-site-header></div>
-    <script src="site-state.js?v=1776119695375"></script>
-    <script src="site-header.js?v=1776119695375"></script>
+    <script src="site-state.js?v=1776464273054"></script>
+    <script src="site-header.js?v=1776464273054"></script>
 
     <section class="collection-hero">
         <div class="video-bg">
@@ -1853,7 +1864,7 @@
             <div class="footer-contact">
                 <h3 class="footer-title">Contact Us</h3>
                 <ul>
-                    <li><i class="fas fa-phone"></i> +98 21 1234 5678</li>
+                    <li><i class="fas fa-phone"></i> +16132007199</li>
                     <li><i class="fas fa-envelope"></i> hello@lustreviewblinds.ca</li>
                     <li><i class="fas fa-map-marker-alt"></i> Tehran, Jordan St.</li>
                 </ul>
@@ -2033,31 +2044,17 @@
                 const cartBtn = card.querySelector('.cart-btn');
                 if (favBtn) {
                     const inWishlist = wishlist.has(key);
-                    favBtn.classList.toggle('is-active', inWishlist);
+                    favBtn.classList.toggle('is-favorite', inWishlist);
                     favBtn.setAttribute('aria-label', inWishlist ? 'In wishlist' : 'Add to wishlist');
                 }
                 if (cartBtn) {
                     const inCart = cart.has(key);
-                    cartBtn.classList.toggle('is-active', inCart);
+                    cartBtn.classList.toggle('is-added', inCart);
                     cartBtn.setAttribute('aria-label', inCart ? 'In cart' : 'Add to cart');
                 }
             });
         };
-        const showToast = (message) => {
-            let toast = document.querySelector('.collection-toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.className = 'collection-toast';
-                document.body.appendChild(toast);
-            }
-            toast.textContent = message;
-            toast.style.display = 'block';
-            toast.classList.add('is-visible');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('is-visible');
-            }, 2200);
-        };
+
         const addToSavedList = async (storageKey, item) => {
             const itemKey = typeof item === 'object' ? item?.key : item;
             const values = storageKey === 'cart' ? getSavedSet('cart') : getSavedSet('wishlist');
@@ -2067,6 +2064,25 @@
             }
             return !alreadyExists;
         };
+
+        const toggleSavedList = async (storageKey, item) => {
+            const itemKey = typeof item === 'object' ? item?.key : item;
+            const values = storageKey === 'cart' ? getSavedSet('cart') : getSavedSet('wishlist');
+            const alreadyExists = values.has(itemKey);
+
+            if (alreadyExists) {
+                if (window.LuxeState?.[storageKey === 'cart' ? 'removeFromCart' : 'removeFromWishlist']) {
+                    await window.LuxeState[storageKey === 'cart' ? 'removeFromCart' : 'removeFromWishlist'](storageKey === 'cart' ? item : itemKey);
+                }
+                return 'removed';
+            } else {
+                if (window.LuxeState?.[storageKey === 'cart' ? 'addToCart' : 'addToWishlist']) {
+                    await window.LuxeState[storageKey === 'cart' ? 'addToCart' : 'addToWishlist'](storageKey === 'cart' ? item : itemKey);
+                }
+                return 'added';
+            }
+        };
+
         const goToSavedPage = (page, itemKey) => {
             window.location.href = `${page}.html?focus=${encodeURIComponent(itemKey)}`;
         };
@@ -2126,9 +2142,6 @@
                         <span class="product-category">${item.label}</span>
                         <h3 class="product-name">${item.name}</h3>
                         <p>${truncate(item.description)}</p>
-                        <div class="product-price">
-                            <span class="price">${formatPrice(item.price)}</span>
-                        </div>
                     </div>
                 </div>`;
             }).join('');
@@ -2367,19 +2380,20 @@
 
             if (event.target.closest('.favorite-btn')) {
                 (async () => {
-                    const added = await addToSavedList('wishlist', itemKey);
-                    showToast(added ? 'Added to wishlist' : 'Already in wishlist');
+                    const result = await toggleSavedList('wishlist', itemKey);
+                    const message = result === 'added' ? 'Added to wishlist' : 'Removed from wishlist';
+                    showToast(message);
                     updateActionState();
-                    setTimeout(() => goToSavedPage('wishlist', itemKey), 180);
                 })();
                 return;
             }
 
             if (event.target.closest('.cart-btn')) {
                 (async () => {
-                    const added = await addToSavedList('cart', itemKey);
-                    showToast(added ? 'Added to cart' : 'Already in cart');
-                    if (added) bumpHeaderCart();
+                    const result = await toggleSavedList('cart', itemKey);
+                    const message = result === 'added' ? 'Added to cart' : 'Removed from cart';
+                    showToast(message);
+                    if (result === 'added') bumpHeaderCart();
                     updateActionState();
                 })();
                 return;
@@ -2391,7 +2405,10 @@
             document.getElementById('modal-image').src = card.querySelector('img').src;
             document.getElementById('modal-name').textContent = card.querySelector('h3').textContent;
             document.getElementById('modal-desc').textContent = card.querySelector('p').textContent;
-            document.getElementById('modal-price').innerHTML = card.querySelector('.price').innerHTML;
+            // قیمت پرده حذف شد
+            const priceElement = document.getElementById('modal-price');
+            priceElement.textContent = '';
+            priceElement.style.display = 'none';
             const modalRating = document.getElementById('modal-rating');
             const ratingValue = card.dataset.rating;
             if (ratingValue) {
@@ -2488,3 +2505,4 @@
 </body>
 
 </html>
+

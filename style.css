@@ -1,4 +1,4 @@
-﻿        :root {
+        :root {
             --primary: #C9A962;
             --primary-dark: #A88B4A;
             --dark: #111111;
@@ -111,6 +111,13 @@ body::after {
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 22px;
+                gap: 8px;
+            }
         }
 
         .logo i { color: var(--primary); }
@@ -705,7 +712,7 @@ body::after {
             }
 
             .p-slide {
-                padding: 118px 6% 124px;
+                padding: 100px 6% 100px;
                 align-items: flex-end;
             }
 
@@ -716,14 +723,14 @@ body::after {
             }
 
             .p-title {
-                font-size: clamp(2.6rem, 12vw, 4rem);
-                margin-bottom: 18px;
+                font-size: clamp(2.2rem, 10vw, 3.5rem);
+                margin-bottom: 16px;
             }
 
             .p-desc {
-                font-size: 0.96rem;
-                line-height: 1.7;
-                margin-bottom: 24px;
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin-bottom: 32px;
             }
 
             .p-actions {
@@ -800,7 +807,7 @@ body::after {
             border-radius: 50px;
             font-size: 13.5px;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
             animation: fadeInUp 1s ease forwards;
         }
 
@@ -808,7 +815,7 @@ body::after {
             font-size: 68px;
             font-weight: 900;
             line-height: 1.15;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
         }
@@ -980,7 +987,7 @@ body::after {
         .section-title {
             font-size: 52px;
             font-weight: 900;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
         }
 
         .section-desc {
@@ -1057,7 +1064,7 @@ body::after {
 
         .product-badge {
             position: absolute;
-            top: 20px;
+            bottom: 120px;
             right: 20px;
             padding: 8px 16px;
             background: var(--primary);
@@ -1114,7 +1121,7 @@ body::after {
 
         @media (hover: none) {
             .product-actions {
-                bottom: 24px;
+                bottom: 120px;
             }
         }
 
@@ -1166,53 +1173,46 @@ body::after {
 
         .action-toast {
             position: fixed;
-            right: 88px;
-            bottom: 88px;
-            z-index: 12000;
-            display: grid;
-            gap: 4px;
-            max-width: min(340px, calc(100vw - 44px));
-            padding: 14px 16px;
-            border-radius: 18px;
-            background: rgba(18, 18, 18, 0.96);
-            color: #fff;
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
-            border: 1px solid rgba(201, 169, 98, 0.26);
-            transform: translateY(18px);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.24s ease, opacity 0.24s ease;
+            top: 24px;
+            right: 24px;
+            z-index: 999999;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 320px;
+            word-wrap: break-word;
+            backdrop-filter: blur(10px);
         }
 
         .action-toast.is-visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .action-toast::before {
-            content: 'Update';
-            display: inline-flex;
-            width: fit-content;
-            padding: 4px 8px;
-            margin-bottom: 2px;
-            border-radius: 999px;
-            background: rgba(201, 169, 98, 0.16);
-            color: var(--primary);
-            font-size: 0.7rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            display: block;
+            animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .action-toast.is-error {
-            border-color: rgba(255, 111, 111, 0.28);
+            border-color: rgba(255, 107, 107, 0.7);
+            background: linear-gradient(135deg, #2a1a1a 0%, #3d2323 100%);
         }
 
-        .action-toast.is-error::before {
-            content: 'Required';
-            background: rgba(255, 111, 111, 0.16);
-            color: #ff9e9e;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+
 
         .quick-view-modal {
             position: fixed;
@@ -1268,7 +1268,8 @@ body::after {
             display: none;
             align-items: stretch;
             justify-content: flex-end;
-            background: rgba(10, 10, 10, 0.45);
+            /* background: rgba(10, 10, 10, 0.45); */
+            display: none;
         }
 
         .saved-panel.is-open {
@@ -1477,11 +1478,7 @@ body::after {
             gap: 16px;
         }
 
-        .quick-view-price {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
-        }
+
 
         .categories {
             padding: 120px 8%;
@@ -1603,7 +1600,7 @@ body::after {
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
             font-size: 17px;
         }
 
@@ -1720,7 +1717,7 @@ body::after {
         .cta-title {
             font-size: 54px;
             font-weight: 900;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
         }
 
         .cta-desc {
@@ -2023,7 +2020,7 @@ body::after {
 
         .footer-brand .logo {
             color: white;
-            margin-bottom: 24px;
+            margin-bottom: 120px;
             font-size: 32px;
         }
 
@@ -2639,4 +2636,7 @@ body::after {
                 padding: 22px 16px;
             }
         }
+
+
+
 

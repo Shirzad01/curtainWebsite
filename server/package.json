@@ -2,7 +2,7 @@
   "name": "luxe-drapes-admin-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Local API + SQLite for Luxe Drapes admin",
+  "description": "Local API + SQLite for LustreView Blinds admin",
   "main": "server.js",
   "scripts": {
     "dev": "node server.js"

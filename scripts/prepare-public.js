@@ -12,23 +12,32 @@ const files = [
 const dest = 'public';
 
 try {
+    const rootFiles = fs.readdirSync(process.cwd());
+
     // Create public directory if it doesn't exist
     if (!fs.existsSync(dest)) {
         fs.mkdirSync(dest, { recursive: true });
     }
 
     files.forEach(f => {
-        const src = path.join(process.cwd(), f);
-        const target = path.join(process.cwd(), dest, f);
+        // جستجوی فایل بدون حساسیت به حروف بزرگ و کوچک در پوشه ریشه
+        const actualFile = rootFiles.find(name => name.toLowerCase() === f.toLowerCase());
 
-        if (fs.existsSync(src)) {
+        if (actualFile) {
+            const src = path.join(process.cwd(), actualFile);
+            const target = path.join(process.cwd(), dest, f.toLowerCase());
+
             fs.copyFileSync(src, target);
-            console.log(`Successfully copied: ${f}`);
+            // فقط در صورت مغایرت نام واقعی با نام درخواستی، لاگ جزئی نمایش داده می‌شود
+            if (actualFile !== f.toLowerCase()) {
+                console.log(`ℹ️ Auto-fixed casing: ${actualFile} -> ${dest}/index.html`);
+            }
         } else {
-            console.warn(`⚠️ Warning: File not found, skipping: ${f}`);
+            console.error(`❌ Build Error: Missing essential file: ${f}`);
+            process.exit(1);
         }
     });
-    console.log(`✅ DONE: Public directory ready at ${new Date().toISOString()}`);
+    console.log(`✅ Build completed successfully: ${new Date().toLocaleTimeString()}`);
 } catch (error) {
     console.error('❌ Build process failed:', error);
     process.exit(1);
